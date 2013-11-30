@@ -2,61 +2,12 @@ define(function (require) {
 
     var FacilityList = require('facilityList');
 
-    var availableFacilities = {
-        'Farm': {
-            name: 'Farm',
-            landCost: 2,
-            buildDuration: 1,
-            buildDelta: {
-                energy: -16,
-                pollution: 32,
-                food: 0
-            },
-            normalDelta: {
-                energy: -2,
-                pollution: 16,
-                food: 32
-            }
-        },
-        'Coal Power Plant': {
-            name: 'Coal Power Plant',
-            landCost: 4,
-            buildDuration: 3,
-            buildDelta: {
-                energy: -16,
-                pollution: 80,
-                food: 0
-            },
-            normalDelta: {
-                energy: 128,
-                pollution: 64,
-                food: 0
-            }
-        },
-        'Pollution Sponge': {
-            name: 'Pollution Sponge',
-            landCost: 7,
-            buildDuration: 3,
-            buildDelta: {
-                energy: -16,
-                pollution: 50,
-                food: 0
-            },
-            normalDelta: {
-                energy: 64,
-                pollution: -32,
-                food: 0
-            }
-        }
-    };
-
     describe('facility list', function() {
 
         describe('addFacility', function() {
             it('adds a facility', function() {
                 // Arrange
-                var facilityList = new FacilityList(availableFacilities);
-                var farm = availableFacilities['Farm'];
+                var facilityList = new FacilityList();
 
                 // Act
                 facilityList.addFacility('Farm', 1);
@@ -65,14 +16,14 @@ define(function (require) {
 
                 // Assert
                 expect(resultCount).toEqual(1);
-                expect(result).toEqual(farm);
+                expect(result.name).toEqual('Farm');
             });
         });
 
         describe('removeFacility', function() {
            it('removes a facility', function() {
                // Arrange
-               var facilityList = new FacilityList(availableFacilities);
+               var facilityList = new FacilityList();
                facilityList.addFacility('Farm');
                facilityList.addFacility('Coal Power Plant');
                var farm = facilityList.getFacility(0);
@@ -90,10 +41,47 @@ define(function (require) {
         });
 
         describe('update', function() {
-            it('returns buildable land area');
-            it('returns pollution delta');
-            it('returns food delta');
+            it('returns buildable land area', function() {
+                // Arrange
+                var facilityList = new FacilityList();
+                facilityList.addFacility('Farm');
+                facilityList.addFacility('Coal Power Plant');
+
+                // Act
+                var result = facilityList.update(0, 20);
+
+                // Assert
+                expect(result.buildableLandArea).toEqual(14);
+            });
+
+            it('returns pollution delta', function() {
+                // Arrange
+                var facilityList = new FacilityList();
+                facilityList.addFacility('Farm');
+                facilityList.addFacility('Coal Power Plant');
+
+                // Act
+                var result = facilityList.update(0, 20);
+
+                // Assert
+                expect(result.pollutionDelta).toEqual(80);
+            });
+
+            it('returns food delta', function() {
+                // Arrange
+                var facilityList = new FacilityList();
+                facilityList.addFacility('Farm');
+                facilityList.addFacility('Coal Power Plant');
+
+                // Act
+                var result = facilityList.update(0, 20);
+
+                // Assert
+                expect(result.foodDelta).toEqual(32);
+            });
+
             it('updates remaining energy');
+
             it('completes construction of facilities');
         });
 
