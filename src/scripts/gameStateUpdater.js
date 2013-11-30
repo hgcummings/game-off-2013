@@ -40,13 +40,13 @@ define('gameStateUpdater', function() {
                     facilityState.pollutionDelta;
             
                 function calculatePollutionAbsorbedByForests() {
-                    return newBuildableLandArea * 0.0001;
+                    return Math.floor(newBuildableLandArea * 0.01);
                 }
             }
 
             function increasePopulationByReproduction() {
                 var peopleBorn = 0;
-                if (newBuildableLandArea > 100) {
+                if (newBuildableLandArea >= 100) {
                     peopleBorn = Math.floor(currentState.population * 0.01);
                 }
                 return currentState.population + peopleBorn;

@@ -202,6 +202,29 @@ define(function (require) {
             expect(Math.floor(nextState.population) ).toBe(nextState.population);
         });
 
+        it ('maintains integer values for pollution', function() {
+            // Arrange
+            var currentPollution = 567;
+
+            var currentState = {
+                pollution: currentPollution
+            };
+
+            var facilityStub = {
+                buildableLandArea: 1234,
+                pollutionDelta: 32,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(Math.floor(nextState.pollution) ).toBe(nextState.pollution);
+        });
+
         it('increases the population if not limited by food or land area', function() {
             // Arrange
             var currentFood = 10000;
@@ -224,8 +247,29 @@ define(function (require) {
             expect(nextState.population).toBeGreaterThan(currentState.population);
         });
 
-        xit('limits/reduces the population if insufficient land area', function() {
-            throw new Error('Test not implemented');
+        it('halts population growth if insufficient land area', function() {
+            // Arrange
+            var currentFood = 10000;
+            var currentPopulation = 100;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            var facilityStub = {
+                buildableLandArea: 0,
+                pollutionDelta: 0,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.population).toBe(currentState.population);
         });
 
         it('increments the tick', function() {
