@@ -3,12 +3,13 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
 
     return {
         create: function (parent, cells) {
-            var width = 960,
+            var width = 600,
                 height = 500;
 
             var origin = [0, -5];
 
             var projection = d3.geo.orthographic()
+                .translate([width / 2, height / 2])
                 .rotate(origin)
                 .scale(240)
                 .clipAngle(90);
