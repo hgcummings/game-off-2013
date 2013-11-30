@@ -37,7 +37,7 @@ define('facility', function() {
             if (remainingPower >= -this.baseEnergyDelta()) {
                 timeBuilt++;
                 this.isPowered = true;
-                return remainingPower + this.baseEnergyDelta();
+                return remainingPower + (this.baseEnergyDelta() < 0 ? this.baseEnergyDelta() : 0);
             } else {
                 this.isPowered = false;
                 return remainingPower;
