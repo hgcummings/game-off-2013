@@ -6,7 +6,7 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility'],
         var facilities = [];
         var baseEnergyOutput = 5;
         this.addFacility = function(facilityName, currentTime) {
-            facilities.push([availableFacilities[facilityName], currentTime]);
+            facilities.push([new Facility(availableFacilities[facilityName]), currentTime]);
         };
 
         this.removeFacility = function(facility) {
