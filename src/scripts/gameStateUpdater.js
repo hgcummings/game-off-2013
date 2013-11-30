@@ -1,12 +1,12 @@
 define('gameStateUpdater', function() {
     'use strict';
     
-    return function(map, facilityList) {
+    return function(terrain, facilityList) {
         this.updateGameState = function(currentState) {
             var newTick = incrementTick();
 
             var newSeaLevel = updateSeaLevel();
-            var newUnfloodedLandArea = map.calculateRemainingLandArea();
+            var newUnfloodedLandArea = terrain.calculateRemainingLandArea();
 
             var facilityState = facilityList.update(currentState.tick, newUnfloodedLandArea);
 
@@ -31,7 +31,7 @@ define('gameStateUpdater', function() {
 
             function updateSeaLevel() {
                 var updatedSeaLevel = currentState.seaLevel + currentState.pollution;
-                map.updateSeaLevel(updatedSeaLevel);
+                terrain.updateSeaLevel(updatedSeaLevel);
                 return updatedSeaLevel;
             }
 

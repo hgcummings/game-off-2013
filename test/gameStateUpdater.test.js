@@ -4,12 +4,8 @@ define(function (require) {
     var GameStateUpdater = require('gameStateUpdater');
     var gameStateUpdater;
 
-    var mockMap = {
-        updateSeaLevel: function() {},
-        calculateRemainingLandArea: function () {}
-    };
-
     var mockFacilityList;
+    var mockTerrain;
 
     var facilityStub = {
                 buildableLandArea: 450000,
@@ -17,13 +13,17 @@ define(function (require) {
                 foodDelta: 0
         };
 
+    var seaLevelStub = 10;
+
     describe('game state updater', function() {
 
         beforeEach(function() {
             mockFacilityList = jasmine.createSpyObj('facilityList', ['update']);
             mockFacilityList.update.andReturn(facilityStub);
 
-            gameStateUpdater = new GameStateUpdater(mockMap, mockFacilityList);
+            mockTerrain = jasmine.createSpyObj('terrain', ['updateSeaLevel', 'calculateRemainingLandArea']);
+
+            gameStateUpdater = new GameStateUpdater(mockTerrain, mockFacilityList);
 
         });
 
@@ -43,25 +43,21 @@ define(function (require) {
             expect(nextState.seaLevel).toBe(currentSeaLevel + currentPollution);
         });
 
-        it('updates map sea level with current sea level', function() {
+        it('updates terrain sea level with current sea level', function() {
             // Arrange
             var currentSeaLevel = 10;
             var currentPollution = 5;
+
             var currentState = {
                 seaLevel: currentSeaLevel,
                 pollution: currentPollution
-            };
-
-            var updatedSeaLevel = null;
-            mockMap.updateSeaLevel = function(newSeaLevel) {
-                updatedSeaLevel = newSeaLevel;
             };
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(updatedSeaLevel).toBe(currentSeaLevel + currentPollution);
+            expect(mockTerrain.updateSeaLevel).toHaveBeenCalledWith(currentState.seaLevel + currentState.pollution);
         });
 
         it('increases pollution based on facilities', function() {
@@ -96,10 +92,8 @@ define(function (require) {
                 pollution: currentPollution
             };
 
-            var newUnfloodedLandArea = 500;
-            mockMap.calculateRemainingLandArea = function() {
-                return newUnfloodedLandArea;
-            };
+            var unfloodedLandAreaStub = 500;
+            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
@@ -235,10 +229,8 @@ define(function (require) {
                 population: currentPopulation
             };
 
-            var newUnfloodedLandArea = 500;
-            mockMap.calculateRemainingLandArea = function() {
-                return newUnfloodedLandArea;
-            };
+            var unfloodedLandAreaStub = 500;
+            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
@@ -284,6 +276,24 @@ define(function (require) {
 
             // Assert
             expect(nextState.tick).toBe(currentTick + 1);
-        })
+        });
+
+        it('updates facility list with current time and unflooded land area', function() {
+            // Arrange
+            var currentTick = 10;
+            var currentState = {
+                tick: currentTick
+            };
+
+            var unfloodedLandAreaStub = 500;
+            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(mockFacilityList.update).toHaveBeenCalledWith(currentState.tick, unfloodedLandAreaStub);
+        });
+
     });
 });
