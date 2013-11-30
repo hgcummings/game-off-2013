@@ -47,7 +47,7 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
 
             setInterval(function(){
                 if (game.state.population >= 0) {
-                    //code goes here that will be run every 1 ms.
+                    //code goes here that will be run every tick.
                     game.update();
                     refreshDisplay();
                 }
