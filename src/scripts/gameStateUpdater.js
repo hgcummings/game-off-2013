@@ -57,7 +57,7 @@ define('gameStateUpdater', function() {
                 }
 
                 function calculateFoodConsumedByPopulation() {
-                    return currentState.population * 0.1;
+                    return Math.ceil(currentState.population * 0.1);
                 }
 
                 function peopleWillStarve() {

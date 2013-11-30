@@ -114,8 +114,8 @@ define(function (require) {
 
         it ('decreases food based on population', function() {
             // Arrange
-            var currentFood = 500;
-            var currentPopulation = 200;
+            var currentFood = 567;
+            var currentPopulation = 256;
 
             var currentState = {
                 food: currentFood,
@@ -131,8 +131,8 @@ define(function (require) {
 
         it('prevents food from becoming negative but starves people instead', function() {
             // Arrange
-            var currentFood = 500;
-            var currentPopulation = 20000;
+            var currentFood = 567;
+            var currentPopulation = 12345;
 
             var currentState = {
                 food: currentFood,
@@ -145,6 +145,40 @@ define(function (require) {
             // Assert
             expect(nextState.food).toBe(0);
             expect(nextState.population).toBeLessThan(currentPopulation);
+        });
+
+        it ('maintains integer values for food and population', function() {
+            // Arrange
+            var currentFood = 123456;
+            var currentPopulation = 123455;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(Math.floor(nextState.food) ).toBe(nextState.food);
+            expect(Math.floor(nextState.population) ).toBe(nextState.population);
+
+            // Arrange
+            currentFood = 1234;
+            currentPopulation = 123456;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(Math.floor(nextState.food) ).toBe(nextState.food);
+            expect(Math.floor(nextState.population) ).toBe(nextState.population);
         });
 
         xit('increases the population if not limited by food or land area', function() {
