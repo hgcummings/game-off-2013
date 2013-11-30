@@ -108,8 +108,29 @@ define(function (require) {
             expect(nextState.pollution).toBeLessThan(currentPollution);
         });
 
-        xit ('increases food based on facilities', function() {
-            throw new Error('Test not implemented');
+        it ('increases food based on facilities', function() {
+            // Arrange
+            var currentFood = 500;
+            var currentPopulation = 0;
+
+            var currentState = {
+                population: currentPopulation,
+                food: currentFood
+            };
+
+            var facilityStub = {
+                buildableLandArea: 0,
+                pollutionDelta: 0,
+                foodDelta: 32
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.food).toBe(currentFood + facilityStub.foodDelta);
         });
 
         it ('decreases food based on population', function() {
