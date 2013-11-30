@@ -27,6 +27,7 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
 
         this.update = function(unfloodedLandArea) {
 
+
             var grossEnergyProduced = _.reduce(facilities, function(sum, next) {
                 var delta = next[0].energyDelta();
                 var energyProduced = delta > 0 ? delta : 0;

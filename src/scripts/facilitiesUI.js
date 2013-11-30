@@ -6,7 +6,6 @@ define('facilitiesUI', ['availableFacilitiesDisplay', 'constructedFacilitiesDisp
 
     return function(facilityList, availableFacilities) {
 
-        this.setUp(availableFacilities);
         var landArea = 0;
         var availableFacilitiesDisplay = new AvailableFacilitiesDisplay(availableFacilities, facilityList);
         var constructedFacilitiesDisplay = new ConstructedFacilitiesDisplay(facilityList);
