@@ -43,7 +43,7 @@ define(function (require) {
             expect(nextState.seaLevel).toBe(currentSeaLevel + currentPollution);
         });
 
-        it ('updates map sea level with current sea level', function() {
+        it('updates map sea level with current sea level', function() {
             // Arrange
             var currentSeaLevel = 10;
             var currentPollution = 5;
@@ -64,7 +64,7 @@ define(function (require) {
             expect(updatedSeaLevel).toBe(currentSeaLevel + currentPollution);
         });
 
-        it ('increases pollution based on facilities', function() {
+        it('increases pollution based on facilities', function() {
             // Arrange
             var currentPollution = 500;
 
@@ -88,7 +88,7 @@ define(function (require) {
         });
 
         // Assuming all land is forest except for that used by facilities
-        it ('decreases pollution based on land area', function () {
+        it('decreases pollution based on land area', function () {
             // Arrange
             var currentPollution = 500;
 
@@ -108,7 +108,7 @@ define(function (require) {
             expect(nextState.pollution).toBeLessThan(currentPollution);
         });
 
-        it ('increases food based on facilities', function() {
+        it('increases food based on facilities', function() {
             // Arrange
             var currentFood = 500;
             var currentPopulation = 0;
@@ -133,7 +133,7 @@ define(function (require) {
             expect(nextState.food).toBe(currentFood + facilityStub.foodDelta);
         });
 
-        it ('decreases food based on population', function() {
+        it('decreases food based on population', function() {
             // Arrange
             var currentFood = 567;
             var currentPopulation = 256;
@@ -168,7 +168,7 @@ define(function (require) {
             expect(nextState.population).toBeLessThan(currentPopulation);
         });
 
-        it ('maintains integer values for food and population', function() {
+        it('maintains integer values for food and population', function() {
             // Arrange
             var currentFood = 123456;
             var currentPopulation = 123455;
@@ -202,7 +202,7 @@ define(function (require) {
             expect(Math.floor(nextState.population) ).toBe(nextState.population);
         });
 
-        it ('maintains integer values for pollution', function() {
+        it('maintains integer values for pollution', function() {
             // Arrange
             var currentPollution = 567;
 
@@ -285,9 +285,5 @@ define(function (require) {
             // Assert
             expect(nextState.tick).toBe(currentTick + 1);
         })
-
-        xit('updates the facilities module with the total land area', function() {
-            throw new Error('Test not implemented');
-        });
     });
 });
