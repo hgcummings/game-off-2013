@@ -45,13 +45,13 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
 
             refreshDisplay();
 
-            $('#nextTurnButton').click(function() {
-                game.update();
-                refreshDisplay();
+            setInterval(function(){
                 if (game.state.population === 0) {
-                    $('#nextTurnButton').prop('disabled', 'disabled');
+                    //code goes here that will be run every 1 ms.
+                    game.update();
+                    refreshDisplay();
                 }
-            });
+            }, 100);
 
             function refreshDisplay() {
                 document.getElementById('tick').value = game.state.tick;
