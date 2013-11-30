@@ -36,8 +36,10 @@ define('gameStateUpdater', function() {
             }
 
             function updatePollution() {
-                return currentState.pollution - calculatePollutionAbsorbedByForests() +
+                var updatedPollution = currentState.pollution - calculatePollutionAbsorbedByForests() +
                     facilityState.pollutionDelta;
+
+                return (updatedPollution > 0) ? updatedPollution : 0;
             
                 function calculatePollutionAbsorbedByForests() {
                     return Math.floor(newBuildableLandArea * 0.01);

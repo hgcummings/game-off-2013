@@ -92,14 +92,42 @@ define(function (require) {
                 pollution: currentPollution
             };
 
-            var unfloodedLandAreaStub = 500;
-            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
+            var facilityStub = {
+                buildableLandArea: 500,
+                pollutionDelta: 0,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
             expect(nextState.pollution).toBeLessThan(currentPollution);
+        });
+
+        it('prevents pollution from becoming negative', function () {
+            // Arrange
+            var currentPollution = 1;
+
+            var currentState = {
+                pollution: currentPollution
+            };
+
+            var facilityStub = {
+                buildableLandArea: 5000,
+                pollutionDelta: 0,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.pollution).toBe(0);
         });
 
         it('increases food based on facilities', function() {
