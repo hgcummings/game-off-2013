@@ -38,22 +38,35 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
 
             redraw();
 
-            $(document).keydown(function (e) {
-                switch (e.keyCode) {
-                case 37:
-                    origin[0] -= 5;
+            var keyState = {};
+
+            window.addEventListener('keydown', function(e){
+                keyState[e.keyCode || e.which] = true;
+            },true);
+
+            window.addEventListener('keyup', function(e){
+                keyState[e.keyCode || e.which] = false;
+            },true);
+
+            function scrollGlobeXBy (offset) {
+                    origin[0] += offset;
                     projection.rotate(origin);
-                    redraw();
-                    break;
-                case 39:
-                    origin[0] += 5;
-                    projection.rotate(origin);
-                    redraw();
-                    break;
-                default:
-                    break;
+                    redraw();                
+            }
+
+            function globeScrollingLoop() {
+                if (keyState[37]){ // Left key
+                    scrollGlobeXBy(5);
                 }
-            });
+
+                if (keyState[39]){ // Right key
+                    scrollGlobeXBy(-5);
+                }
+
+                setTimeout(globeScrollingLoop, 10);
+            }
+
+            globeScrollingLoop();
 
             return {
                 redraw: redraw
