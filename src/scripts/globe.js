@@ -51,8 +51,8 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
             function scrollGlobeXBy (offset) {
                     origin[0] += offset;
                     projection.rotate(origin);
-                    redraw();                
-            }
+                    redraw();
+                }
 
             function globeScrollingLoop() {
                 if (keyState[37]){ // Left key
