@@ -46,8 +46,6 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
             var consumedLandArea = _.reduce(facilities, function(sum, next) { return sum + next[0].landCost; }, 0);
             var buildableLandArea = unfloodedLandArea - consumedLandArea;
 
-
-
             facilitiesUI.setAvailableLandArea(buildableLandArea);
             facilitiesUI.update(facilities);
 

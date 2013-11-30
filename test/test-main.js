@@ -13,6 +13,7 @@ requirejs.config({
         "d3": "../lib/d3.v3.min",
         "geodesic": "../lib/geodesic",
         "Squire": "/base/node_modules/squirejs/src/Squire",
+        'jquery': '//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min',
         'underscore': '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min',
         "rng":"/base/test/lib/rng"
     },
