@@ -65,7 +65,7 @@ define(function (require) {
 
                 // Assert
                 expect(resultCount).toEqual(1);
-                expect(result).toEqual(farm);
+                expect(result.name).toEqual('Farm');
             });
 
             it("doesn't add a facility if there is insufficient energy", function () {
