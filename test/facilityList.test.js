@@ -26,8 +26,8 @@ define(function (require) {
            it('removes a facility', function() {
                // Arrange
                var facilityList = new FacilityList();
-               facilityList.addFacility('Farm');
-               facilityList.addFacility('Coal Power Plant');
+               facilityList.addFacility('Farm', 1);
+               facilityList.addFacility('Coal Power Plant', 2);
                var farm = facilityList.getFacility(0);
                var powerPlant = facilityList.getFacility(1);
 
@@ -46,8 +46,8 @@ define(function (require) {
             it('returns buildable land area', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
                 var result = facilityList.update(0, 20);
@@ -59,8 +59,8 @@ define(function (require) {
             it('returns in construction pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
                 var result = facilityList.update(0, 20);
@@ -72,8 +72,8 @@ define(function (require) {
             it('returns in construction food delta', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
                 var result = facilityList.update(0, 20);
@@ -85,12 +85,12 @@ define(function (require) {
             it('returns normal operation pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
-                facilityList.update(1050, 20);
-                var result = facilityList.update(1051, 20);
+                facilityList.update(3050, 20);
+                var result = facilityList.update(3051, 20);
 
                 // Assert
                 expect(result.pollutionDelta).toEqual(80);
@@ -99,8 +99,8 @@ define(function (require) {
             it('returns normal operation food delta', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
                 facilityList.update(1050, 20);
@@ -113,7 +113,7 @@ define(function (require) {
             it('does not complete construction of facilities after 900 ticks in two updates', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
+                facilityList.addFacility('Farm', 1);
 
                 // Act
                 facilityList.update(450, 20);
@@ -127,7 +127,7 @@ define(function (require) {
             it('completes construction of facilities after 1000 ticks in two updates', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
+                facilityList.addFacility('Farm', 1);
 
                 // Act
                 facilityList.update(500, 20);
@@ -141,7 +141,7 @@ define(function (require) {
             it('completes construction of facilities after 1000 ticks in one update', function() {
                 // Arrange
                 var facilityList = new FacilityList();
-                facilityList.addFacility('Farm');
+                facilityList.addFacility('Farm', 1);
 
                 // Act
                 facilityList.update(1050, 20);

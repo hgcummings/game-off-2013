@@ -2,18 +2,24 @@ define('facilityList', ['underscore', 'availableFacilities'], function(_, availa
     'use strict';
 
     var updateFacilityConstructionStatus = function(currentTime, facilities, removeFacility, availableFacilities) {
+        var facilitiesToRemove = [];
+        var facilitiesToAdd = [];
+
         _.each(facilities, function(entry) {
             if (entry.underConstruction &&
                 facilityHasCompletedConstruction(currentTime, entry.startTime, entry.facility)) {
-                console.log(facilities);
-                removeFacility(entry.facility);
-                facilities.push({
+                facilitiesToRemove.push(entry.facility);
+                facilitiesToAdd.push({
                     facility: availableFacilities[entry.facilityName],
                     startTime: entry.startTime,
                     underConstruction: false
                 });
-                console.log(facilities);
             };
+        });
+
+        _.each(facilitiesToRemove, removeFacility);
+        _.each(facilitiesToAdd, function(facility) {
+            facilities.push(facility);
         });
     };
 
