@@ -202,8 +202,26 @@ define(function (require) {
             expect(Math.floor(nextState.population) ).toBe(nextState.population);
         });
 
-        xit('increases the population if not limited by food or land area', function() {
-            throw new Error('Test not implemented');
+        it('increases the population if not limited by food or land area', function() {
+            // Arrange
+            var currentFood = 10000;
+            var currentPopulation = 100;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            var newUnfloodedLandArea = 500;
+            mockMap.calculateRemainingLandArea = function() {
+                return newUnfloodedLandArea;
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.population).toBeGreaterThan(currentState.population);
         });
 
         xit('limits/reduces the population if insufficient land area', function() {
