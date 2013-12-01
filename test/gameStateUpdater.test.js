@@ -247,7 +247,7 @@ define(function (require) {
             expect(Math.floor(nextState.pollution) ).toBe(nextState.pollution);
         });
 
-        it('increases the population if not limited by food or land area', function() {
+        it('increases the population if not limited by food', function() {
             // Arrange
             var currentFood = 10000;
             var currentPopulation = 100;
@@ -256,40 +256,12 @@ define(function (require) {
                 food: currentFood,
                 population: currentPopulation
             };
-
-            var unfloodedLandAreaStub = 500;
-            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
             expect(nextState.population).toBeGreaterThan(currentState.population);
-        });
-
-        it('halts population growth if insufficient land area', function() {
-            // Arrange
-            var currentFood = 10000;
-            var currentPopulation = 100;
-
-            var currentState = {
-                food: currentFood,
-                population: currentPopulation
-            };
-
-            var facilityStub = {
-                buildableLandArea: 0,
-                pollutionDelta: 0,
-                foodDelta: 0
-            };
-            
-            mockFacilityList.update.andReturn(facilityStub);
-
-            // Act
-            var nextState = gameStateUpdater.updateGameState(currentState);
-
-            // Assert
-            expect(nextState.population).toBe(currentState.population);
         });
 
         it('updates facility list with current unflooded land area', function() {
