@@ -6,19 +6,6 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
             'September', 'October', 'November', 'December'];
 
         var config = {
-            food: {
-                label: 'Food',
-                options: {
-                    min: 0,
-                    max: 1000,
-                    redFrom: 0,
-                    redTo: 100,
-                    yellowFrom: 100,
-                    yellowTo: 200,
-                    greenFrom: 900,
-                    greenTo: 1000
-                }
-            },
             pollution: {
                 label: 'CO₂',
                 options: {
@@ -60,15 +47,41 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
             },
             power: {
                 label: 'Power',
-                options: {
+                    options: {
                     min: -10,
-                    max: 90,
-                    redFrom: -10,
-                    redTo: 0,
-                    yellowFrom: 0,
-                    yellowTo: 10,
-                    greenFrom: 80,
-                    greenTo: 90
+                        max: 90,
+                        redFrom: -10,
+                        redTo: 0,
+                        yellowFrom: 0,
+                        yellowTo: 10,
+                        greenFrom: 80,
+                        greenTo: 90
+                }
+            },
+            food: {
+                label: 'Food',
+                options: {
+                    min: 0,
+                    max: 1000,
+                    redFrom: 0,
+                    redTo: 100,
+                    yellowFrom: 100,
+                    yellowTo: 200,
+                    greenFrom: 900,
+                    greenTo: 1000
+                }
+            },
+            deaths: {
+                label: 'Deaths',
+                options: {
+                    min: 0,
+                    max: 1000,
+                    redFrom: 750,
+                    redTo: 1000,
+                    yellowFrom: 500,
+                    yellowTo: 750,
+                    greenFrom: 0,
+                    greenTo: 100
                 }
             }
         };
@@ -96,6 +109,7 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
             setValue('pollution', state.pollution);
             setValue('power', state.powerRemaining);
             setValue('land', state.buildableLandArea);
+            setValue('deaths', state.totalDeathsFromStarvation);
         };
 
         function setValue(id, val) {
