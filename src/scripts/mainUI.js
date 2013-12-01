@@ -79,9 +79,7 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
                     redFrom: 750,
                     redTo: 1000,
                     yellowFrom: 500,
-                    yellowTo: 750,
-                    greenFrom: 0,
-                    greenTo: 100
+                    yellowTo: 750
                 }
             }
         };
