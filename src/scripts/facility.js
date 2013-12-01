@@ -3,7 +3,7 @@ define('facility', function() {
 
     return function(facilityTemplate) {
         var timeBuilt = 0;
-        this.isOperating = false;
+        this.hasPower = false;
 
 
         this.shortName = facilityTemplate.shortName;
@@ -14,7 +14,7 @@ define('facility', function() {
         };
 
         this.energyDelta = function() {
-            return this.isOperating ? this.baseEnergyDelta() : 0;
+            return this.hasPower ? this.baseEnergyDelta() : 0;
         };
 
         this.baseEnergyDelta = function() {
@@ -22,11 +22,11 @@ define('facility', function() {
         };
 
         this.pollutionDelta = function() {
-            return this.isOperating ? this.getDeltas().pollution : 0;
+            return this.hasPower ? this.getDeltas().pollution : 0;
         };
 
         this.foodDelta = function() {
-            return this.isOperating ? this.getDeltas().food : 0;
+            return this.hasPower ? this.getDeltas().food : 0;
         };
 
         this.getDeltas = function() {
@@ -43,12 +43,13 @@ define('facility', function() {
         };
 
         this.update = function(remainingPower) {
+            console.log(this.name(), this.baseEnergyDelta());
             if (remainingPower >= -this.baseEnergyDelta()) {
                 timeBuilt++;
-                this.isOperating = true;
+                this.hasPower = true;
                 return remainingPower + (this.baseEnergyDelta());
             } else {
-                this.isOperating = false;
+                this.hasPower = false;
                 return remainingPower;
             }
         };

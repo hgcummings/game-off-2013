@@ -32,7 +32,11 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
             }, 0);
 
             var sortedFacilities = _.sortBy(facilities, function(facility) {
-                return facility.baseEnergyDelta() > 0 ? 0 : (!facility.isBuilt() ? 1 : 2);
+                if (facility.isBuilt() && facility.baseEnergyDelta() > 0) {
+                    return 0;
+                } else {
+                    return facility.isBuilt() ? 2 : 1;
+                }
             });
 
             _.reduce(sortedFacilities, function(energy, next) {
