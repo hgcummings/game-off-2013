@@ -6,6 +6,7 @@ define('facility', function() {
         this.isPowered = false;
 
         this.name = facilityTemplate.name;
+        this.shortName = facilityTemplate.shortName;
         this.landCost = facilityTemplate.landCost;
 
         this.energyDelta = function() {

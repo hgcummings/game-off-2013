@@ -2,18 +2,17 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
     function(_, availableFacilities,  Facility, FacilitiesUI) {
     'use strict';
 
-    return function(constructionContext) {
+    return function(facilitiesGui) {
         var facilities = [];
         var baseEnergyOutput = 5;
-        var facilitiesUI = new FacilitiesUI(this, availableFacilities, constructionContext);
+        var facilitiesUI = new FacilitiesUI(this, availableFacilities, facilitiesGui);
         this.addFacility = function(facilityName, currentTime) {
             facilities.push([new Facility(availableFacilities[facilityName]), currentTime]);
             facilitiesUI.update(facilities);
         };
 
         this.removeFacility = function(facility) {
-            var facilityIndex = _.map(facilities, function(x) { return x[0]; }).indexOf(facility);
-            facilities.splice(facilityIndex, 1);
+            facilities.splice(this.getFacilityIndex(facility), 1);
             facilitiesUI.update(facilities);
         };
 
@@ -23,6 +22,10 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
 
         this.getFacility = function(index) {
             return facilities[index][0];
+        };
+
+        this.getFacilityIndex = function(facility) {
+            return _.map(facilities, function(x) { return x[0]; }).indexOf(facility);
         };
 
         this.update = function(currentTick, unfloodedLandArea) {

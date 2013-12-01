@@ -54,9 +54,8 @@ define(['require', 'arrayUtils', 'underscore', 'construction'], function(require
                 cells[6].facility = {};
                 cells[5].facility = {};
 
-                var site = construction.placeBuilding(cells, cells[0], 2);
-
-                expect(site).toBe(false);
+                expect(construction.placeBuilding(cells, cells[0], 2)).toBe(false);
+                expect(construction.placeBuilding(cells, cells[1], 2)).toBe(false);
             });
         });
     });

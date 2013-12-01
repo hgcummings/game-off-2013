@@ -11,7 +11,7 @@ define('terrain', ['d3', 'arrayUtils'], function(d3, arrayUtils) {
         return cell.attributes.indexOf('developed') > -1;
     };
 
-    var generate = function generateTerrain(cells, proportionLand) {
+    var generate = function generateTerrain(cells, proportionLand, facilityList) {
         cells.forEach(function(cell) {
             cell.attributes = [];
             if (Math.abs(d3.geo.centroid(cell)[1]) > 66.5) {
@@ -60,7 +60,31 @@ define('terrain', ['d3', 'arrayUtils'], function(d3, arrayUtils) {
 
         var updateSeaLevel = function(seaLevel) {
             cells.forEach(function(cell) {
-                cell.attributes[0] = cell.altitude > seaLevel ? 'land' : 'sea';
+                if (cell.altitude) {
+                    if (cell.altitude < seaLevel) {
+                        cell.attributes[0] = 'sea';
+                        if (cell.facility) {
+                            var facilityToRemove = cell.facility;
+                            var findAllSiteCells = function(currentCell) {
+                                if (currentCell.facility === facilityToRemove && site.indexOf(currentCell) === -1) {
+                                    site.push(currentCell);
+                                    currentCell.neighbours.forEach(findAllSiteCells);
+                                }
+                            };
+
+                            var site = [];
+                            findAllSiteCells(cell);
+                            site.forEach(function(siteCell) {
+                                delete(siteCell.facility);
+                            });
+
+                            console.log('removing facility');
+                            facilityList.removeFacility(facilityToRemove);
+                        }
+                    } else {
+                        cell.attributes[0] = 'land';
+                    }
+                }
             });
         };
 

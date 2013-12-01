@@ -1,37 +1,6 @@
 define(['require', 'Squire', 'rng'], function (require, Squire, RNG) {
     'use strict';
 
-    var createCell = function() {
-        return {
-            neighbours: []
-        };
-    };
-
-    var createGrid = function() {
-        var cells = [];
-        for (var i = 0; i < 10; ++i) {
-            for (var j = 0; j < 10; ++j) {
-                var cell = createCell();
-
-                if (i > 0) {
-                    var upNeighbour = cells[cells.length - 10];
-                    upNeighbour.neighbours.push(cell);
-                    cell.neighbours.push(upNeighbour);
-                }
-
-                if (j > 0) {
-                    var leftNeighbour = cells[10 * i + j - 1];
-                    leftNeighbour.neighbours.push(cell);
-                    cell.neighbours.push(leftNeighbour);
-                }
-
-                cells.push(cell);
-            }
-        }
-
-        return cells;
-    };
-
     describe('terrain', function() {
         var cells;
         var terrain;
@@ -158,21 +127,56 @@ define(['require', 'Squire', 'rng'], function (require, Squire, RNG) {
         });
 
         describe('updateSeaLevel', function() {
+            var mockFacilityList;
+
+            beforeEach(function() {
+                mockFacilityList = jasmine.createSpyObj('facilityList', ['removeFacility']);
+            });
+
             it('should reduce land to zero when completely flooded', function() {
-                var generated = terrain.generate(createGrid(), 1);
+                var instance = terrain.generate(createGrid(), 1, mockFacilityList);
 
-                generated.updateSeaLevel(1000);
+                instance.updateSeaLevel(1001);
 
-                expect(generated.calculateRemainingLandArea()).toBe(0);
+                expect(instance.calculateRemainingLandArea()).toBe(0);
             });
 
             it('should reduce land area when flooded', function() {
-                var generated = terrain.generate(createGrid(), 1);
+                var instance = terrain.generate(createGrid(), 0.5, mockFacilityList);
 
-                generated.updateSeaLevel(500);
+                instance.updateSeaLevel(500);
 
-                expect(generated.calculateRemainingLandArea()).toBeLessThan(100);
-                expect(generated.calculateRemainingLandArea()).toBeGreaterThan(0);
+                expect(instance.calculateRemainingLandArea()).toBeLessThan(100);
+                expect(instance.calculateRemainingLandArea()).toBeGreaterThan(0);
+            });
+
+            it('should remove facilities from flooded grid cells', function() {
+                cells = createGrid();
+
+                var instance = terrain.generate(cells, 0.5, mockFacilityList);
+                var lowLyingCell = null;
+
+                cells.every(function(cell) {
+                    if (cell.altitude === 20) {
+                        lowLyingCell = cell;
+                        return false;
+                    }
+                    return true;
+                });
+
+                var facility = { type: 'Food Factory' };
+                lowLyingCell.facility = facility;
+                lowLyingCell.neighbours[0].facility = facility;
+                lowLyingCell.neighbours[1].facility = { type: 'Power plant' };
+                lowLyingCell.neighbours[0].neighbours[0].facility = facility;
+
+                instance.updateSeaLevel(30);
+
+                expect(mockFacilityList.removeFacility).toHaveBeenCalledWith(facility);
+                expect(lowLyingCell.facility).toBeUndefined();
+                expect(lowLyingCell.neighbours[0].facility).toBeUndefined();
+                expect(lowLyingCell.neighbours[0].neighbours[0].facility).toBeUndefined();
+                expect(lowLyingCell.neighbours[1].facility).toBeDefined();
             });
         });
 
@@ -180,4 +184,35 @@ define(['require', 'Squire', 'rng'], function (require, Squire, RNG) {
             terrain = null;
         });
     });
+
+    var createGrid = function() {
+        var cells = [];
+        for (var i = 0; i < 10; ++i) {
+            for (var j = 0; j < 10; ++j) {
+                var cell = createCell();
+
+                if (i > 0) {
+                    var upNeighbour = cells[cells.length - 10];
+                    upNeighbour.neighbours.push(cell);
+                    cell.neighbours.push(upNeighbour);
+                }
+
+                if (j > 0) {
+                    var leftNeighbour = cells[10 * i + j - 1];
+                    leftNeighbour.neighbours.push(cell);
+                    cell.neighbours.push(leftNeighbour);
+                }
+
+                cells.push(cell);
+            }
+        }
+
+        return cells;
+    };
+
+    var createCell = function() {
+        return {
+            neighbours: []
+        };
+    };
 });

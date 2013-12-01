@@ -1,8 +1,16 @@
 define('construction', ['arrayUtils', 'terrain'], function(arrayUtils, terrain) {
     'use strict';
 
+    var isAvailable = function(cell) {
+        return terrain.isLand(cell) && !cell.facility;
+    };
+
     var placeBuilding = function(cells, root, size) {
         /* jshint loopfunc: true */
+        if (!isAvailable(root)) {
+            return false;
+        }
+
         var site = [root];
 
         while (site.length < size) {
@@ -10,7 +18,7 @@ define('construction', ['arrayUtils', 'terrain'], function(arrayUtils, terrain) 
 
             site.forEach(function(cell) {
                 cell.neighbours.forEach(function(neighbour) {
-                    if (terrain.isLand(neighbour) && !neighbour.facility && site.indexOf(neighbour) === -1) {
+                    if (isAvailable(neighbour) && site.indexOf(neighbour) === -1) {
                         arrayUtils.addIfNotPresent(candidates, neighbour);
                     }
                 });

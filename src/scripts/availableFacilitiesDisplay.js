@@ -1,7 +1,7 @@
 define('availableFacilitiesDisplay', ['jquery'], function($) {
     'use strict';
 
-    return function(availableFacilities, facilityList, constructionContext) {
+    return function(availableFacilities, facilityList, facilitiesGui) {
         var availableFacilitiesDisplay = $('#availableFacilities');
 
         $.each(availableFacilities, function() {
@@ -41,7 +41,7 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
             }
 
             constructButton.click(function(){
-                constructionContext.open(facility.name, facilityList);
+                facilitiesGui.openConstructionContext(facility.name, facilityList);
             });
             return constructButton;
         }
