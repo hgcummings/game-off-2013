@@ -19,7 +19,8 @@ define('gameStateUpdater', function() {
                 buildableLandArea: newBuildableLandArea,
                 pollution: newPollution,
                 food: newFood,
-                population: newPopulation
+                population: newPopulation,
+                powerRemaining: facilityState.powerRemaining
             };
 
             function updateSeaLevel() {

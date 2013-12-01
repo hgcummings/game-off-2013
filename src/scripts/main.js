@@ -62,6 +62,7 @@ require(
                 document.getElementById('population').value = game.state.population;
                 document.getElementById('food').value = game.state.food;
                 document.getElementById('pollution').value = game.state.pollution;
+                document.getElementById('power').value = game.state.powerRemaining;
                 map.redraw();
             }
         });
