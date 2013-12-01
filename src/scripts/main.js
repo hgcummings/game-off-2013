@@ -40,6 +40,7 @@ require(
 
             facilitiesGui.addFacility(facilityList, 'Coal Power Plant').completeEarly();
             facilitiesGui.addFacility(facilityList, 'Farm').completeEarly();
+            facilitiesGui.addFacility(facilityList, 'Coal Power Plant').completeEarly();
 
             var initialGameState = {
                 seaLevel: 0,
