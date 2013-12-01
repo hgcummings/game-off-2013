@@ -42,6 +42,10 @@ define('facility', function() {
             return timeBuilt >= facilityTemplate.buildDuration;
         };
 
+        this.completeEarly = function() {
+            timeBuilt = facilityTemplate.buildDuration;
+        };
+
         this.update = function(remainingPower) {
             if (remainingPower >= -this.baseEnergyDelta()) {
                 timeBuilt++;

@@ -17,7 +17,8 @@ require.config({
     }
 });
 
-require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui'],
+require(
+    ['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui'],
         function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui) {
             'use strict';
 
@@ -31,6 +32,9 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
             var terrain = terrainFactory.generate(cells, 0.5, facilityList);
             var map = globe.create(mapElement, cells);
             var gameStateUpdater = new GameStateUpdater(terrain, facilityList);
+
+            var initialEnergySource = facilitiesGui.addFacility(facilityList, 'Coal Power Plant');
+            initialEnergySource.completeEarly();
 
             var initialGameState = {
                 seaLevel: 0,

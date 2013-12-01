@@ -14,7 +14,7 @@ define('facilitiesUI', ['availableFacilitiesDisplay', 'constructedFacilitiesDisp
         {
             availableFacilitiesDisplay.displayAvailableFacilities(landArea);
             constructedFacilitiesDisplay.displayConstructedFacilities(facilities);
-            facilitiesGui.update(facilityList);
+            facilitiesGui.update(facilities);
         };
 
         this.setAvailableLandArea = function (newLandArea)
