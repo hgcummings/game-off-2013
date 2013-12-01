@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script data-main="scripts/main" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.1/slate/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
+    <style>
+        #map {
+            width: 600px;
+            height: 600px;
+        }
+
+        svg {
+            background-color: black;
+        }
+
+        path {
+            stroke: black;
+            fill: white;
+        }
+
+        path.land {
+            fill: LimeGreen;
+            stroke: LimeGreen;
+        }
+
+        path.sea {
+            fill: DodgerBlue;
+            stroke: DodgerBlue;
+        }
+
+        path.land.polar {
+            fill: White;
+            stroke: White;
+        }
+
+        path.sea.polar {
+            fill: LightCyan;
+            stroke: LightCyan;
+        }
+
+        path.land.facility-coal {
+            fill: #444;
+            stroke: #444;
+        }
+
+        path.land.facility-farm {
+            fill: Goldenrod;
+            stroke: Goldenrod;
+        }
+
+        #map.buildMode path.land {
+            stroke: Black;
+        }
+
+        #map.buildMode path.invalidSite {
+            fill: Crimson;
+            cursor: not-allowed;
+        }
+
+        #map.buildMode path.potentialSite {
+            fill: Lime;
+        }
+
+        circle {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2px;
+        }
+
+        table th {
+            text-align: center;
+        }
+
+        table th, table td {
+            padding: 0.5em;
+            font-size: 0.9em;
+        }
+
+        #map, #constructedFacilities {
+            clear: both;
+        }
+
+        #hintText {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="game" class="container">
+        <h2>World map</h2>
+        <div class="col-md-4 form-inline">
+                <label for="tick" class="col-md-6">Tick:
+                <input type="text" id="tick" readonly="true" /></label>
+                <label for="seaLevel" class="col-md-6">Sea level (m):
+                <input type="text" id="seaLevel" readonly="true" /></label>
+                <label for="buildableLand" class="col-md-6">Buildable land (km&sup2;):
+                <input type="text" id="buildableLand" readonly="true" /></label>
+                <label for="population" class="col-md-6">Population:
+                <input type="text" id="population" readonly="true" /></label>
+                <label for="food" class="col-md-6">Food supplies:
+                <input type="text" id="food" readonly="true" /></label>
+                <label for="pollution" class="col-md-6">Pollution level:
+                <input type="text" id="pollution" readonly="true" /></label>
+        </div>
+        <div class="col-md-6">
+            <table id="availableFacilities">
+                <tr>
+                    <th rowspan="2">Type</th>
+                    <th rowspan="2">Space<br />required</th>
+                    <th colspan="3">Annual output</th>
+                </tr>
+                <tr>
+                    <th>Energy</th>
+                    <th>Food</th>
+                    <th>Pollution</th>
+                </tr>
+            </table>
+        </div>
+        <div id="map">
+            <div id="hintText"></div>
+        </div>
+        <table id="constructedFacilities">
+            <tr>
+                <th>Name</th>
+                <th>Space Used</th>
+                <th>Annual Energy Output</th>
+                <th>Annual Food Output</th>
+                <th>Annual Pollution Output</th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
