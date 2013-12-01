@@ -27,10 +27,10 @@ define(function (require) {
 
         });
 
-        it('increases sea level based on pollution', function() {
+        it('maintains current sea level until a certain level of pollution is reached', function() {
             // Arrange
-            var currentSeaLevel = 10;
-            var currentPollution = 5;
+            var currentSeaLevel = 0;
+            var currentPollution = 99;
             var currentState = {
                 seaLevel: currentSeaLevel,
                 pollution: currentPollution
@@ -40,13 +40,61 @@ define(function (require) {
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(nextState.seaLevel).toBe(currentSeaLevel + currentPollution);
+            expect(nextState.seaLevel).toBe(currentSeaLevel);
         });
 
-        it('updates terrain sea level with current sea level', function() {
+        it('increases sea level once a certain level of pollution is reached', function() {
+            // Arrange
+            var currentSeaLevel = 0;
+            var currentPollution = 100;
+            var currentState = {
+                seaLevel: currentSeaLevel,
+                pollution: currentPollution
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.seaLevel).toBe(currentSeaLevel + 1);
+        });
+
+        it('reduces sea level when there is no pollution', function() {
             // Arrange
             var currentSeaLevel = 10;
-            var currentPollution = 5;
+            var currentPollution = 0;
+            var currentState = {
+                seaLevel: currentSeaLevel,
+                pollution: currentPollution
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.seaLevel).toBe(currentSeaLevel - 1);
+        });
+
+        it('prevents the sea level from becomg negative', function() {
+            // Arrange
+            var currentSeaLevel = 0;
+            var currentPollution = 0;
+            var currentState = {
+                seaLevel: currentSeaLevel,
+                pollution: currentPollution
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.seaLevel).toBe(currentSeaLevel);
+        });
+
+        it('updates terrain sea level with new sea level', function() {
+            // Arrange
+            var currentSeaLevel = 10;
+            var currentPollution = 100;
 
             var currentState = {
                 seaLevel: currentSeaLevel,
@@ -57,7 +105,7 @@ define(function (require) {
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(mockTerrain.updateSeaLevel).toHaveBeenCalledWith(currentState.seaLevel + currentState.pollution);
+            expect(mockTerrain.updateSeaLevel).toHaveBeenCalledWith(currentState.seaLevel + 1);
         });
 
         it('increases pollution based on facilities', function() {
@@ -266,7 +314,7 @@ define(function (require) {
             expect(nextState.population).toBeGreaterThan(currentState.population);
         });
 
-        it('updates facility list with current unflooded land area', function() {
+        it('updates facility list with new unflooded land area', function() {
             // Arrange
             var currentState = {
             };
