@@ -33,7 +33,6 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
             var gameStateUpdater = new GameStateUpdater(terrain, facilityList);
 
             var initialGameState = {
-                tick: 0,
                 seaLevel: 0,
                 buildableLandArea: terrain.calculateRemainingLandArea(),
                 pollution: 0,
@@ -54,7 +53,6 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
             }, 1000);
 
             function refreshDisplay() {
-                document.getElementById('tick').value = game.state.tick;
                 document.getElementById('seaLevel').value = game.state.seaLevel;
                 document.getElementById('buildableLand').value = game.state.buildableLandArea;
                 document.getElementById('population').value = game.state.population;
