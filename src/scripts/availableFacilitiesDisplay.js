@@ -1,7 +1,7 @@
 define('availableFacilitiesDisplay', ['jquery'], function($) {
     'use strict';
 
-    return function(availableFacilities, facilityList) {
+    return function(availableFacilities, facilityList, constructionContext) {
         var availableFacilitiesDisplay = $('#availableFacilities');
 
         $.each(availableFacilities, function() {
@@ -34,16 +34,16 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
 
         function getPlacementButtonForFacility(facility, landRemaining)
         {
-            var button = $('<button>Construct</button>');
+            var constructButton = $('<button>Construct</button>');
 
             if (landRemaining < facility.landCost) {
-                button.attr('disabled', true);
+                constructButton.attr('disabled', true);
             }
 
-            button.click(function(){
-                facilityList.addFacility(facility.name, Date.now());
+            constructButton.click(function(){
+                constructionContext.open(facility.name, facilityList);
             });
-            return button;
+            return constructButton;
         }
     };
 });

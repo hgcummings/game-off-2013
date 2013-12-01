@@ -3,22 +3,19 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
 
     return {
         create: function (parent, cells) {
-            var width = 600,
-                height = 500;
-
             var origin = [0, -5];
 
             var projection = d3.geo.orthographic()
-                .translate([width / 2, height / 2])
+                .translate([parent.clientWidth / 2, parent.clientHeight / 2])
                 .rotate(origin)
-                .scale(240)
+                .scale((parent.clientHeight / 2) - 10)
                 .clipAngle(90);
 
             var path = d3.geo.path().projection(projection);
 
             var svg = d3.select(parent).append('svg')
-                .attr('width', width)
-                .attr('height', height);
+                .attr('width', parent.clientWidth)
+                .attr('height', parent.clientHeight);
 
             var polygons = svg.selectAll('path')
                 .data(cells)
@@ -49,10 +46,10 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
             },true);
 
             function scrollGlobeXBy (offset) {
-                    origin[0] += offset;
-                    projection.rotate(origin);
-                    redraw();
-                }
+                origin[0] += offset;
+                projection.rotate(origin);
+                redraw();
+            }
 
             function globeScrollingLoop() {
                 if (keyState[37]){ // Left key

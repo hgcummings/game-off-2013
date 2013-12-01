@@ -2,10 +2,10 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
     function(_, availableFacilities,  Facility, FacilitiesUI) {
     'use strict';
 
-    return function() {
+    return function(constructionContext) {
         var facilities = [];
         var baseEnergyOutput = 5;
-        var facilitiesUI = new FacilitiesUI(this, availableFacilities);
+        var facilitiesUI = new FacilitiesUI(this, availableFacilities, constructionContext);
         this.addFacility = function(facilityName, currentTime) {
             facilities.push([new Facility(availableFacilities[facilityName]), currentTime]);
             facilitiesUI.update(facilities);

@@ -5,6 +5,7 @@ define('availableFacilities', ['underscore'], function(_) {
         {
             facilityId: 1,
             name: 'Farm',
+            shortName: 'farm',
             landCost: 2,
             buildDuration: 1,
             buildDelta: {
@@ -21,6 +22,7 @@ define('availableFacilities', ['underscore'], function(_) {
         {
             facilityId: 2,
             name: 'Coal Power Plant',
+            shortName: 'coal',
             landCost: 4,
             buildDuration: 3,
             buildDelta: {

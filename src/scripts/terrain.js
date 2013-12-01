@@ -7,6 +7,10 @@ define('terrain', ['d3', 'arrayUtils'], function(d3, arrayUtils) {
         return cell.attributes.indexOf('land') > -1;
     };
 
+    var isDeveloped = function(cell) {
+        return cell.attributes.indexOf('developed') > -1;
+    };
+
     var generate = function generateTerrain(cells, proportionLand) {
         cells.forEach(function(cell) {
             cell.attributes = [];
@@ -68,6 +72,7 @@ define('terrain', ['d3', 'arrayUtils'], function(d3, arrayUtils) {
 
     return {
         generate: generate,
-        isLand: isLand
+        isLand: isLand,
+        isDeveloped: isDeveloped
     };
 });

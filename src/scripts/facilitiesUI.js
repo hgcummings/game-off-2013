@@ -4,10 +4,10 @@ define('facilitiesUI', ['availableFacilitiesDisplay', 'constructedFacilitiesDisp
     ) {
     'use strict';
 
-    return function(facilityList, availableFacilities) {
+    return function(facilityList, availableFacilities, constructionContext) {
 
         var landArea = 0;
-        var availableFacilitiesDisplay = new AvailableFacilitiesDisplay(availableFacilities, facilityList);
+        var availableFacilitiesDisplay = new AvailableFacilitiesDisplay(availableFacilities, facilityList, constructionContext);
         var constructedFacilitiesDisplay = new ConstructedFacilitiesDisplay(facilityList);
 
         this.update = function(facilities)
