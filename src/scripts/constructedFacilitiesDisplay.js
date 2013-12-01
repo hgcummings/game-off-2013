@@ -14,7 +14,7 @@ define('constructedFacilitiesDisplay', ['jquery'], function($) {
                 facilityDisplay.append(getEntryForValue(facility.foodDelta()));
                 facilityDisplay.append(getEntryForValue(facility.pollutionDelta()));
                 facilityDisplay.append(getDemolitionButtonForFacility(facility));
-                if (!facility.isPowered) {
+                if (!facility.isOperating) {
                     facilityDisplay.css('color','red');
                 } else if(!facility.isBuilt()) {
                     facilityDisplay.css('color','gray');

@@ -11,6 +11,7 @@ define('availableFacilities', ['underscore'], function(_) {
             buildDelta: {
                 energy: -1,
                 pollution: 1,
+                food: 0
             },
             normalDelta: {
                 energy: -1,
