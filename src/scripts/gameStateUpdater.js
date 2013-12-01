@@ -53,7 +53,7 @@ define('gameStateUpdater', function() {
             }
 
             function increasePopulationByReproduction() {
-                var peopleBorn = Math.floor(currentState.population * 0.01);
+                var peopleBorn = Math.ceil(currentState.population * 0.01);
                 return currentState.population + peopleBorn;
             }
 
