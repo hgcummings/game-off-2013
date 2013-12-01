@@ -33,8 +33,8 @@ require(
             var map = globe.create(mapElement, cells);
             var gameStateUpdater = new GameStateUpdater(terrain, facilityList);
 
-            var initialEnergySource = facilitiesGui.addFacility(facilityList, 'Coal Power Plant');
-            initialEnergySource.completeEarly();
+            facilitiesGui.addFacility(facilityList, 'Coal Power Plant').completeEarly();
+            facilitiesGui.addFacility(facilityList, 'Farm').completeEarly();
 
             var initialGameState = {
                 seaLevel: 0,
