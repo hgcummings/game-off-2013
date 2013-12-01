@@ -15,10 +15,10 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
             availableFacilitiesDisplay.append(facilityDisplay);
         });
 
-        this.displayAvailableFacilities = function(landRemaining) {
+        this.displayAvailableFacilities = function(researchedFacilities) {
             $.each(availableFacilities, function() {
                 var buttonId = '#facility-' + this.shortName + ' button';
-                if (landRemaining < this.landCost) {
+                if (!researchedFacilities[this.name]) {
                     availableFacilitiesDisplay.find(buttonId).attr('disabled', true);
                 } else {
                     availableFacilitiesDisplay.find(buttonId).removeAttr('disabled');
