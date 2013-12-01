@@ -3,7 +3,10 @@ require.config({
         'jquery': '//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min',
         'd3': '../lib/d3.v3.min',
         'geodesic': '../lib/geodesic',
-        'underscore': '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min'
+        'underscore': '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min',
+        'async': '../lib/require/async',
+        'goog': '../lib/require/goog',
+        'propertyParser': '../lib/require/propertyParser'
     },
 
     shim: {
