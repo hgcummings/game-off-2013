@@ -1,13 +1,15 @@
 define(function (require) {
 
     var FacilityList = require('facilityList');
+    var availableFacilities = require('availableFacilities');
+    var mockUI = { update:function(){}, setAvailableLandArea:function(){} };
 
     describe('facility list', function() {
 
         describe('addFacility', function() {
             it('adds a facility', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
 
                 // Act
                 facilityList.addFacility('Farm', 1);
@@ -25,7 +27,7 @@ define(function (require) {
         describe('removeFacility', function() {
            it('removes a facility', function() {
                // Arrange
-               var facilityList = new FacilityList();
+               var facilityList = new FacilityList(mockUI);
                facilityList.addFacility('Farm', 1);
                facilityList.addFacility('Coal Power Plant', 2);
                var farm = facilityList.getFacility(0);
@@ -45,7 +47,7 @@ define(function (require) {
         describe('update', function() {
             it('returns buildable land area', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Farm', 1);
                 facilityList.addFacility('Coal Power Plant', 2);
 
@@ -58,20 +60,19 @@ define(function (require) {
 
             it('returns in construction pollution delta', function() {
                 // Arrange
-                var facilityList = new FacilityList();
-                facilityList.addFacility('Farm', 1);
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
                 var result = facilityList.update(20);
 
                 // Assert
-                expect(result.pollutionDelta).toEqual(6);
+                expect(result.pollutionDelta).toEqual(availableFacilities['Coal Power Plant'].buildDelta.pollution );
             });
 
             it('returns in construction food delta', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Farm', 1);
                 facilityList.addFacility('Coal Power Plant', 2);
 
@@ -79,12 +80,12 @@ define(function (require) {
                 var result = facilityList.update(20);
 
                 // Assert
-                expect(result.foodDelta).toEqual(0);
+                expect(result.foodDelta).toEqual(availableFacilities['Farm'].buildDelta.food);
             });
 
             it('returns normal operation pollution delta', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Farm', 1);
                 facilityList.addFacility('Coal Power Plant', 2);
 
@@ -95,12 +96,12 @@ define(function (require) {
                 var result = facilityList.update(20);
 
                 // Assert
-                expect(result.pollutionDelta).toEqual(1);
+                expect(result.pollutionDelta).toEqual(availableFacilities['Coal Power Plant'].normalDelta.pollution);
             });
 
             it('returns normal operation food delta', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Farm', 1);
                 facilityList.addFacility('Coal Power Plant', 2);
 
@@ -109,12 +110,12 @@ define(function (require) {
                 var result = facilityList.update(20);
 
                 // Assert
-                expect(result.foodDelta).toEqual(100);
+                expect(result.foodDelta).toEqual(availableFacilities['Farm'].normalDelta.food);
             });
 
             it('does not complete construction of facilities before they\'re finished', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Coal Power Plant', 1);
 
                 // Act
@@ -127,10 +128,11 @@ define(function (require) {
 
             it('completes construction of facilities', function() {
                 // Arrange
-                var facilityList = new FacilityList();
+                var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Farm', 1);
 
                 // Act
+                facilityList.update(20);
                 facilityList.update(20);
                 var result = facilityList.getFacility(0);
 
