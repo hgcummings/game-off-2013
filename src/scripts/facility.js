@@ -5,12 +5,16 @@ define('facility', function() {
         var timeBuilt = 0;
         this.isPowered = false;
 
-        this.name = facilityTemplate.name;
-        this.shortName = facilityTemplate.shortName;
+
+       this.shortName = facilityTemplate.shortName;
         this.landCost = facilityTemplate.landCost;
 
+        this.name = function() {
+            return facilityTemplate.name + (this.isBuilt() ? "" : " (under construction)");
+        }
+
         this.energyDelta = function() {
-            return this.isPowered ? this.baseEnergyDelta() : 0;
+            return this.isOperating ? this.baseEnergyDelta() : 0;
         };
 
         this.baseEnergyDelta = function() {
@@ -18,15 +22,19 @@ define('facility', function() {
         };
 
         this.pollutionDelta = function() {
-            return this.isPowered ? this.getDeltas().pollution : 0;
+            return this.isOperating ? this.getDeltas().pollution : 0;
         };
 
         this.foodDelta = function() {
-            return this.isPowered ? this.getDeltas().food : 0;
+            return this.isOperating ? this.getDeltas().food : 0;
         };
 
+        this.isOperating = function() {
+            return this.isPowered || !this.isBuilt();
+        }
+
         this.getDeltas = function() {
-            return this.isBuilt() ? facilityTemplate.normalDelta : facilityTemplate.buildDelta ;
+            return this.isBuilt() ? facilityTemplate.normalDelta : facilityTemplate.buildDelta;
         };
 
         this.isBuilt = function()
