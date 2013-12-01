@@ -300,7 +300,7 @@ define(function (require) {
         it('increases the population if not limited by food', function() {
             // Arrange
             var currentFood = 10000;
-            var currentPopulation = 100;
+            var currentPopulation = 1;
 
             var currentState = {
                 food: currentFood,
