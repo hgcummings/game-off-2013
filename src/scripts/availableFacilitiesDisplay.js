@@ -5,7 +5,7 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
         var availableFacilitiesDisplay = $('#availableFacilities');
 
         $.each(availableFacilities, function() {
-            var facilityDisplay = $('<tr/>',{ class:'facility', id:'facility-' + this.facilityId });
+            var facilityDisplay = $('<tr/>',{ class:'facility', id:'facility-' + this.shortName });
             facilityDisplay.append(getEntryForValue(this.name));
             facilityDisplay.append(getEntryForValue(this.landCost));
             facilityDisplay.append(getEntryForValue(this.normalDelta.energy));
@@ -17,7 +17,7 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
 
         this.displayAvailableFacilities = function(landRemaining) {
             $.each(availableFacilities, function() {
-                var buttonId = '#facility-' + this.facilityId + ' button';
+                var buttonId = '#facility-' + this.shortName + ' button';
                 if (landRemaining < this.landCost) {
                     availableFacilitiesDisplay.find(buttonId).attr('disabled', true);
                 } else {
