@@ -9,7 +9,7 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
 
         this.addFacility = function(facilityName, currentTime) {
             facilities.push({
-                facility: new Facility(availableFacilities[facilityName]), 
+                facility: new Facility(availableFacilities[facilityName]),
                 startTime: currentTime
             });
 

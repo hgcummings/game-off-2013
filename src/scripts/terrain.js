@@ -78,7 +78,6 @@ define('terrain', ['d3', 'arrayUtils'], function(d3, arrayUtils) {
                                 delete(siteCell.facility);
                             });
 
-                            console.log('removing facility');
                             facilityList.removeFacility(facilityToRemove);
                         }
                     } else {
