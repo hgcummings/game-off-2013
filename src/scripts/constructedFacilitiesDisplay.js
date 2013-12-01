@@ -19,7 +19,7 @@ define('constructedFacilitiesDisplay', ['jquery'], function($) {
                 } else if(!facility.isBuilt()) {
                     facilityDisplay.css('color','gray');
                 } else {
-                    facilityDisplay.css('color','black');
+                    facilityDisplay.css('color','white');
                 }
                 constructedFacilities.append(facilityDisplay);
             });
