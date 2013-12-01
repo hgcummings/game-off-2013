@@ -161,13 +161,13 @@ define('availableFacilities', ['underscore'], function(_) {
             buildDuration: 10,
             researchDifficulty:0,
             buildDelta: {
-                energy: -5,
+                energy: -50,
                 pollution: 0,
                 food: 0,
                 research:0
             },
             normalDelta: {
-                energy: -2,
+                energy: -20,
                 food: 0,
                 pollution: 0,
                 research:1
