@@ -27,10 +27,12 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
         };
 
         this.update = function(unfloodedLandArea) {
+            var netPowerIfAllPowered = _.reduce(facilities, function(sum, next) {
+                return sum + next.energyDelta();
+            }, 0);
 
-            var sortedFacilities = _.sortBy(facilities, function(facility) { return facility.isBuilt(); });
-            sortedFacilities = _.sortBy(sortedFacilities, function(facility) {
-                return facility.baseEnergyDelta() > 0;
+            var sortedFacilities = _.sortBy(facilities, function(facility) {
+                return facility.baseEnergyDelta() > 0 ? 0 : (!facility.isBuilt() ? 1 : 2);
             });
 
             _.reduce(sortedFacilities, function(energy, next) {
@@ -57,7 +59,8 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
             return {
                 buildableLandArea: buildableLandArea,
                 pollutionDelta: pollutionDelta,
-                foodDelta: foodDelta
+                foodDelta: foodDelta,
+                powerRemaining: netPowerIfAllPowered
             };
         };
     };
