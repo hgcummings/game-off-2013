@@ -59,7 +59,7 @@ require(
             $('#facilitiesTabs a').click(function (e) {
                 e.preventDefault();
                 $(this).tab('show');
-            });
+            }).last().click();
 
             setInterval(function(){
                 if (game.state.population > 0) {
