@@ -4,12 +4,8 @@ define(function (require) {
     var GameStateUpdater = require('gameStateUpdater');
     var gameStateUpdater;
 
-    var mockMap = {
-        updateSeaLevel: function() {},
-        calculateRemainingLandArea: function () {}
-    };
-
     var mockFacilityList;
+    var mockTerrain;
 
     var facilityStub = {
                 buildableLandArea: 450000,
@@ -17,13 +13,17 @@ define(function (require) {
                 foodDelta: 0
         };
 
+    var seaLevelStub = 10;
+
     describe('game state updater', function() {
 
         beforeEach(function() {
             mockFacilityList = jasmine.createSpyObj('facilityList', ['update']);
             mockFacilityList.update.andReturn(facilityStub);
 
-            gameStateUpdater = new GameStateUpdater(mockMap, mockFacilityList);
+            mockTerrain = jasmine.createSpyObj('terrain', ['updateSeaLevel', 'calculateRemainingLandArea']);
+
+            gameStateUpdater = new GameStateUpdater(mockTerrain, mockFacilityList);
 
         });
 
@@ -43,28 +43,24 @@ define(function (require) {
             expect(nextState.seaLevel).toBe(currentSeaLevel + currentPollution);
         });
 
-        it ('updates map sea level with current sea level', function() {
+        it('updates terrain sea level with current sea level', function() {
             // Arrange
             var currentSeaLevel = 10;
             var currentPollution = 5;
+
             var currentState = {
                 seaLevel: currentSeaLevel,
                 pollution: currentPollution
-            };
-
-            var updatedSeaLevel = null;
-            mockMap.updateSeaLevel = function(newSeaLevel) {
-                updatedSeaLevel = newSeaLevel;
             };
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(updatedSeaLevel).toBe(currentSeaLevel + currentPollution);
+            expect(mockTerrain.updateSeaLevel).toHaveBeenCalledWith(currentState.seaLevel + currentState.pollution);
         });
 
-        it ('increases pollution based on facilities', function() {
+        it('increases pollution based on facilities', function() {
             // Arrange
             var currentPollution = 500;
 
@@ -88,7 +84,7 @@ define(function (require) {
         });
 
         // Assuming all land is forest except for that used by facilities
-        it ('decreases pollution based on land area', function () {
+        it('decreases pollution based on land area', function () {
             // Arrange
             var currentPollution = 500;
 
@@ -96,10 +92,13 @@ define(function (require) {
                 pollution: currentPollution
             };
 
-            var newUnfloodedLandArea = 500;
-            mockMap.calculateRemainingLandArea = function() {
-                return newUnfloodedLandArea;
+            var facilityStub = {
+                buildableLandArea: 500,
+                pollutionDelta: 0,
+                foodDelta: 0
             };
+            
+            mockFacilityList.update.andReturn(facilityStub);
 
             // Act
             var nextState = gameStateUpdater.updateGameState(currentState);
@@ -108,14 +107,58 @@ define(function (require) {
             expect(nextState.pollution).toBeLessThan(currentPollution);
         });
 
-        xit ('increases food based on facilities', function() {
-            throw new Error('Test not implemented');
+        it('prevents pollution from becoming negative', function () {
+            // Arrange
+            var currentPollution = 1;
+
+            var currentState = {
+                pollution: currentPollution
+            };
+
+            var facilityStub = {
+                buildableLandArea: 5000,
+                pollutionDelta: 0,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.pollution).toBe(0);
         });
 
-        it ('decreases food based on population', function() {
+        it('increases food based on facilities', function() {
             // Arrange
             var currentFood = 500;
-            var currentPopulation = 200;
+            var currentPopulation = 0;
+
+            var currentState = {
+                population: currentPopulation,
+                food: currentFood
+            };
+
+            var facilityStub = {
+                buildableLandArea: 0,
+                pollutionDelta: 0,
+                foodDelta: 32
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.food).toBe(currentFood + facilityStub.foodDelta);
+        });
+
+        it('decreases food based on population', function() {
+            // Arrange
+            var currentFood = 567;
+            var currentPopulation = 256;
 
             var currentState = {
                 food: currentFood,
@@ -131,8 +174,8 @@ define(function (require) {
 
         it('prevents food from becoming negative but starves people instead', function() {
             // Arrange
-            var currentFood = 500;
-            var currentPopulation = 20000;
+            var currentFood = 567;
+            var currentPopulation = 12345;
 
             var currentState = {
                 food: currentFood,
@@ -147,12 +190,106 @@ define(function (require) {
             expect(nextState.population).toBeLessThan(currentPopulation);
         });
 
-        xit('increases the population if not limited by food or land area', function() {
-            throw new Error('Test not implemented');
+        it('maintains integer values for food and population', function() {
+            // Arrange
+            var currentFood = 123456;
+            var currentPopulation = 123455;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(Math.floor(nextState.food) ).toBe(nextState.food);
+            expect(Math.floor(nextState.population) ).toBe(nextState.population);
+
+            // Arrange
+            currentFood = 1234;
+            currentPopulation = 123456;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(Math.floor(nextState.food) ).toBe(nextState.food);
+            expect(Math.floor(nextState.population) ).toBe(nextState.population);
         });
 
-        xit('limits/reduces the population if insufficient land area', function() {
-            throw new Error('Test not implemented');
+        it('maintains integer values for pollution', function() {
+            // Arrange
+            var currentPollution = 567;
+
+            var currentState = {
+                pollution: currentPollution
+            };
+
+            var facilityStub = {
+                buildableLandArea: 1234,
+                pollutionDelta: 32,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(Math.floor(nextState.pollution) ).toBe(nextState.pollution);
+        });
+
+        it('increases the population if not limited by food or land area', function() {
+            // Arrange
+            var currentFood = 10000;
+            var currentPopulation = 100;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            var unfloodedLandAreaStub = 500;
+            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.population).toBeGreaterThan(currentState.population);
+        });
+
+        it('halts population growth if insufficient land area', function() {
+            // Arrange
+            var currentFood = 10000;
+            var currentPopulation = 100;
+
+            var currentState = {
+                food: currentFood,
+                population: currentPopulation
+            };
+
+            var facilityStub = {
+                buildableLandArea: 0,
+                pollutionDelta: 0,
+                foodDelta: 0
+            };
+            
+            mockFacilityList.update.andReturn(facilityStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.population).toBe(currentState.population);
         });
 
         it('increments the tick', function() {
@@ -167,10 +304,24 @@ define(function (require) {
 
             // Assert
             expect(nextState.tick).toBe(currentTick + 1);
-        })
-
-        xit('updates the facilities module with the total land area', function() {
-            throw new Error('Test not implemented');
         });
+
+        it('updates facility list with current time and unflooded land area', function() {
+            // Arrange
+            var currentTick = 10;
+            var currentState = {
+                tick: currentTick
+            };
+
+            var unfloodedLandAreaStub = 500;
+            mockTerrain.calculateRemainingLandArea.andReturn(unfloodedLandAreaStub);
+
+            // Act
+            var nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(mockFacilityList.update).toHaveBeenCalledWith(currentState.tick, unfloodedLandAreaStub);
+        });
+
     });
 });

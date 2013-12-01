@@ -1,19 +1,19 @@
 define('gameStateUpdater', function() {
     'use strict';
     
-    return function(map, facilityList) {
+    return function(terrain, facilityList) {
         this.updateGameState = function(currentState) {
             var newTick = incrementTick();
 
             var newSeaLevel = updateSeaLevel();
-            var newUnfloodedLandArea = map.calculateRemainingLandArea();
+            var newUnfloodedLandArea = terrain.calculateRemainingLandArea();
 
             var facilityState = facilityList.update(currentState.tick, newUnfloodedLandArea);
 
             var newBuildableLandArea = facilityState.buildableLandArea;
             var newPollution = updatePollution();
             var newFood = null;
-            var newPopulation = currentState.population;
+            var newPopulation = increasePopulationByReproduction();
             updateFoodStarvingPeopleIfNecessary();
 
             return {
@@ -31,17 +31,27 @@ define('gameStateUpdater', function() {
 
             function updateSeaLevel() {
                 var updatedSeaLevel = currentState.seaLevel + currentState.pollution;
-                map.updateSeaLevel(updatedSeaLevel);
+                terrain.updateSeaLevel(updatedSeaLevel);
                 return updatedSeaLevel;
             }
 
             function updatePollution() {
-                return currentState.pollution - calculatePollutionAbsorbedByForests() +
+                var updatedPollution = currentState.pollution - calculatePollutionAbsorbedByForests() +
                     facilityState.pollutionDelta;
+
+                return (updatedPollution > 0) ? updatedPollution : 0;
             
                 function calculatePollutionAbsorbedByForests() {
-                    return newBuildableLandArea * 0.0001;
+                    return Math.floor(newBuildableLandArea * 0.01);
                 }
+            }
+
+            function increasePopulationByReproduction() {
+                var peopleBorn = 0;
+                if (newBuildableLandArea >= 100) {
+                    peopleBorn = Math.floor(currentState.population * 0.01);
+                }
+                return currentState.population + peopleBorn;
             }
 
             function updateFoodStarvingPeopleIfNecessary() {
@@ -49,7 +59,7 @@ define('gameStateUpdater', function() {
                     newFood = 0;
                     var foodDeficit = calculateFoodConsumedByPopulation() -
                         (currentState.food + facilityState.foodDelta );
-                    newPopulation = currentState.population - foodDeficit;
+                    newPopulation = newPopulation - foodDeficit;
                 }
                 else {
                     newFood = currentState.food + facilityState.foodDelta -
@@ -57,7 +67,7 @@ define('gameStateUpdater', function() {
                 }
 
                 function calculateFoodConsumedByPopulation() {
-                    return currentState.population * 0.1;
+                    return Math.ceil(newPopulation * 0.1);
                 }
 
                 function peopleWillStarve() {
