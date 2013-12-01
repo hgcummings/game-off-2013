@@ -1,4 +1,4 @@
-define('constructionContext', ['jquery', 'd3', 'availableFacilities', 'construction'], function($, d3, availableFacilities, construction) {
+define('facilitiesGui', ['jquery', 'd3', 'availableFacilities', 'construction'], function($, d3, availableFacilities, construction) {
     'use strict';
 
     var map = $('#map');
@@ -40,16 +40,16 @@ define('constructionContext', ['jquery', 'd3', 'availableFacilities', 'construct
         $('#availableFacilities').after(cancelButton);
         cancelButton.hide();
 
-        var close = function() {
+        var closeConstructionContext = function() {
             clearCurrentSite();
             map.removeClass('buildMode');
             cancelButton.hide();
         };
 
-        cancelButton.click(close);
+        cancelButton.click(closeConstructionContext);
 
-        var open = function(facilityName, facilityList) {
-            close();
+        var openConstructionContext = function(facilityName, facilityList) {
+            closeConstructionContext();
 
             map.addClass('buildMode');
             cancelButton.show();
@@ -66,11 +66,14 @@ define('constructionContext', ['jquery', 'd3', 'availableFacilities', 'construct
                     });
                     $(currentCell.polygon).on('click.' + NAMESPACE, function() {
                         facilityList.addFacility(facilityName, Date.now());
+                        // TODO: This is a bit of a roundabout way of getting hold of the facility instance
+                        // that we just added. We should probably alter addFacility to return it instead.
+                        var newFacility = facilityList.getFacility(facilityList.getFacilityCount() - 1);
                         currentSite.forEach(function(cell) {
-                            cell.facility = facility;
+                            cell.facility = newFacility;
                             addAttribute(cell, 'facility-' + facility.shortName);
                         });
-                        close();
+                        closeConstructionContext();
                     });
                 } else {
                     addAttribute(currentCell, 'invalidSite');
@@ -80,8 +83,18 @@ define('constructionContext', ['jquery', 'd3', 'availableFacilities', 'construct
             map.find('path.land').mouseleave(clearCurrentSite);
         };
 
+        var update = function(facilityList) {
+            cells.forEach(function(cell) {
+                if (cell.facility && facilityList.getFacilityIndex(cell.facility) === -1) {
+                    removeAttribute(cell, 'facility-' + cell.facility.shortName);
+                    delete(cell.facility);
+                }
+            });
+        };
+
         return {
-            open: open
+            openConstructionContext: openConstructionContext,
+            update: update
         };
     };
 });

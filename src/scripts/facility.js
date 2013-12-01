@@ -5,6 +5,8 @@ define('facility', function() {
         var timeBuilt = 0;
         this.isPowered = false;
 
+
+       this.shortName = facilityTemplate.shortName;
         this.landCost = facilityTemplate.landCost;
 
         this.name = function() {

@@ -8,7 +8,7 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
             var projection = d3.geo.orthographic()
                 .translate([parent.clientWidth / 2, parent.clientHeight / 2])
                 .rotate(origin)
-                .scale((parent.clientHeight / 2) - 10)
+                .scale(Math.min(parent.clientHeight, parent.clientWidth) * 11 / 24)
                 .clipAngle(90);
 
             var path = d3.geo.path().projection(projection);
@@ -29,9 +29,26 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
                     .attr('d', path);
             };
 
+            var hintText = $('#hintText');
+
             cells.forEach(function (cell, index) {
                 cell.polygon = polygons[0][index];
+                $(cell.polygon).mouseenter(function() {
+                    var hints = [];
+                    if (cell.altitude) {
+                        hints.push('Altitude: ' + cell.altitude);
+                    }
+                    if (cell.facility) {
+                        hints.push(cell.facility.name);
+                    }
+                    hintText.text(hints.join(', '));
+                });
+
+                $(cell.polygon).mouseleave(function() {
+                    hintText.text('');
+                });
             });
+
 
             redraw();
 

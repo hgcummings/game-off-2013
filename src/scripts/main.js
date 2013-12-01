@@ -17,8 +17,8 @@ require.config({
     }
 });
 
-require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','constructionContext'],
-        function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, ConstructionContext) {
+require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui'],
+        function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui) {
             'use strict';
 
             var mapElement = document.getElementById('map');
@@ -26,11 +26,10 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
             var n = 13;
 
             var cells = grid.generate(n);
-            var terrain = terrainFactory.generate(cells, 0.5);
-
+            var facilitiesGui = new FacilitiesGui(cells);
+            var facilityList = new FacilityList(facilitiesGui);
+            var terrain = terrainFactory.generate(cells, 0.5, facilityList);
             var map = globe.create(mapElement, cells);
-            var constructionContext = new ConstructionContext(cells);
-            var facilityList = new FacilityList(constructionContext);
             var gameStateUpdater = new GameStateUpdater(terrain, facilityList);
 
             var initialGameState = {
