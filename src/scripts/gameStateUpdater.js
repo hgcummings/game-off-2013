@@ -1,6 +1,6 @@
 define('gameStateUpdater', function() {
     'use strict';
-    
+
     return function(terrain, facilityList) {
         this.updateGameState = function(currentState) {
             var newSeaLevel = updateSeaLevel();
@@ -12,6 +12,7 @@ define('gameStateUpdater', function() {
             var newPollution = updatePollution();
             var newFood = null;
             var newPopulation = increasePopulationByReproduction();
+            var newTotalDeathsFromStarvation = currentState.totalDeathsFromStarvation;
             updateFoodStarvingPeopleIfNecessary();
 
             return {
@@ -20,6 +21,7 @@ define('gameStateUpdater', function() {
                 pollution: newPollution,
                 food: newFood,
                 population: newPopulation,
+                totalDeathsFromStarvation: newTotalDeathsFromStarvation,
                 powerRemaining: facilityState.powerRemaining
             };
 
@@ -48,22 +50,21 @@ define('gameStateUpdater', function() {
             function updateFoodStarvingPeopleIfNecessary() {
                 if ( peopleWillStarve() ) {
                     newFood = 0;
-                    var foodDeficit = calculateFoodConsumedByPopulation() -
+                    var foodDeficit = newPopulation -
                         (currentState.food + facilityState.foodDelta );
+
+                    newTotalDeathsFromStarvation = currentState.totalDeathsFromStarvation +
+                        foodDeficit;
                     newPopulation = newPopulation - foodDeficit;
                 }
                 else {
                     newFood = currentState.food + facilityState.foodDelta -
-                    calculateFoodConsumedByPopulation();
-                }
-
-                function calculateFoodConsumedByPopulation() {
-                    return Math.ceil(newPopulation * 0.1);
+                    newPopulation;
                 }
 
                 function peopleWillStarve() {
                     return ( currentState.food + facilityState.foodDelta ) <
-                        calculateFoodConsumedByPopulation();
+                        newPopulation;
                 }
             }
 

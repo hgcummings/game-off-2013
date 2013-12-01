@@ -175,11 +175,12 @@ define(function (require) {
         it('prevents food from becoming negative but starves people instead', function() {
             // Arrange
             var currentFood = 567;
-            var currentPopulation = 12345;
+            var currentPopulation = 1234;
 
             var currentState = {
                 food: currentFood,
-                population: currentPopulation
+                population: currentPopulation,
+                totalDeathsFromStarvation: 0
             };
 
             // Act
@@ -188,12 +189,13 @@ define(function (require) {
             // Assert
             expect(nextState.food).toBe(0);
             expect(nextState.population).toBeLessThan(currentPopulation);
+            expect(nextState.totalDeathsFromStarvation).toBeGreaterThan(0);
         });
 
         it('maintains integer values for food and population', function() {
             // Arrange
             var currentFood = 123456;
-            var currentPopulation = 123455;
+            var currentPopulation = 12345;
 
             var currentState = {
                 food: currentFood,
@@ -224,7 +226,7 @@ define(function (require) {
             expect(Math.floor(nextState.population) ).toBe(nextState.population);
         });
 
-        it('maintains integer values for pollution', function() {
+        it('maintains an integer value for pollution', function() {
             // Arrange
             var currentPollution = 567;
 
