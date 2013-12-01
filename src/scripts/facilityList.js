@@ -4,7 +4,6 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
 
     return function(facilitiesGui) {
         var facilities = [];
-        var baseEnergyOutput = 5;
         var facilitiesUI = new FacilitiesUI(this, availableFacilities, facilitiesGui);
 
         this.addFacility = function(facilityName, currentTime) {
@@ -35,11 +34,14 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
 
         this.update = function(unfloodedLandArea) {
 
-            var grossEnergyProduced = _.reduce(facilities, function(sum, next) {
-                var delta = next.facility.energyDelta();
-                var energyProduced = delta > 0 ? delta : 0;
-                return sum + energyProduced;
-            }, baseEnergyOutput);
+            var sortedFacilities = _.sortBy(facilities, function(facility) { return facility.facility.isBuilt(); });
+            sortedFacilities = _.sortBy(sortedFacilities, function(facility) {
+                return facility.facility.baseEnergyDelta() > 0;
+            });
+
+            _.reduce(sortedFacilities, function(energy, next) {
+                return next.facility.update(energy);
+            }, 0);
 
             var foodDelta =  _.reduce(facilities, function(sum, next) {
                 return sum + next.facility.foodDelta();
@@ -52,10 +54,6 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
             var consumedLandArea = _.reduce(facilities, function(sum, next) {
                 return sum + next.facility.landCost;
             }, 0);
-
-            _.reduce(facilities, function(energy, next) {
-                return next.facility.update(energy);
-            }, grossEnergyProduced);
 
             var buildableLandArea = unfloodedLandArea - consumedLandArea;
 
