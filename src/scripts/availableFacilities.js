@@ -7,11 +7,10 @@ define('availableFacilities', ['underscore'], function(_) {
             name: 'Farm',
             shortName: 'farm',
             landCost: 2,
-            buildDuration: 1,
+            buildDuration: 2,
             buildDelta: {
                 energy: -1,
                 pollution: 1,
-                food: 0
             },
             normalDelta: {
                 energy: -1,
