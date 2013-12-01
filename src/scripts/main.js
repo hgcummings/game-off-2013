@@ -57,8 +57,8 @@ require(
             var tickCount = 0;
 
             $('#facilitiesTabs a').click(function (e) {
-                e.preventDefault()
-                $(this).tab('show')
+                e.preventDefault();
+                $(this).tab('show');
             });
 
             setInterval(function(){

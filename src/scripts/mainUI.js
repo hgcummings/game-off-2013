@@ -47,15 +47,15 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
             },
             power: {
                 label: 'Power',
-                    options: {
+                options: {
                     min: -10,
-                        max: 90,
-                        redFrom: -10,
-                        redTo: 0,
-                        yellowFrom: 0,
-                        yellowTo: 10,
-                        greenFrom: 80,
-                        greenTo: 90
+                    max: 90,
+                    redFrom: -10,
+                    redTo: 0,
+                    yellowFrom: 0,
+                    yellowTo: 10,
+                    greenFrom: 80,
+                    greenTo: 90
                 }
             },
             food: {
