@@ -18,11 +18,14 @@ require.config({
 });
 
 require(
-    ['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui'],
-        function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui) {
+    ['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui', 'mainUI'],
+        function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui, MainUI) {
             'use strict';
 
             var mapElement = document.getElementById('map');
+
+            var monthNamesArray = ["January", "February", "March", "April", "May", "June", "July", "August",
+                "September", "October", "November", "December"];
 
             var n = 13;
 
@@ -45,26 +48,18 @@ require(
                 totalDeathsFromStarvation: 0
             };
 
-            var game = new Game(initialGameState, gameStateUpdater);
 
-            refreshDisplay();
+            var ui = new MainUI();
+            var game = new Game(initialGameState, gameStateUpdater);
+            var tickCount = 0;
 
             setInterval(function(){
                 if (game.state.population > 0) {
                     //code goes here that will be run every tick.
+                    tickCount++;
                     game.update();
-                    refreshDisplay();
+                    ui.refreshDisplay(game.state);
+                    map.redraw();
                 }
             }, 1000);
-
-            function refreshDisplay() {
-                document.getElementById('seaLevel').value = game.state.seaLevel;
-                document.getElementById('buildableLand').value = game.state.buildableLandArea;
-                document.getElementById('population').value = game.state.population;
-                document.getElementById('deathsFromStarvation').value = game.state.totalDeathsFromStarvation;
-                document.getElementById('food').value = game.state.food;
-                document.getElementById('pollution').value = game.state.pollution;
-                document.getElementById('power').value = game.state.powerRemaining;
-                map.redraw();
-            }
         });

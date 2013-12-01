@@ -15,7 +15,7 @@ define('availableFacilities', ['underscore'], function(_) {
             normalDelta: {
                 energy: -2,
                 pollution: 0,
-                food: 50
+                food: 115
             }
         },
         {
@@ -31,7 +31,7 @@ define('availableFacilities', ['underscore'], function(_) {
             normalDelta: {
                 energy: -1,
                 pollution: 1,
-                food: 50
+                food: 115
             }
         },
         {
@@ -95,7 +95,7 @@ define('availableFacilities', ['underscore'], function(_) {
             normalDelta: {
                 energy: 3,
                 pollution: 1,
-                food: -75
+                food: -80
             }
         },
         {
