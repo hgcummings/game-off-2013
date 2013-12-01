@@ -40,8 +40,9 @@ require(
                 seaLevel: 0,
                 buildableLandArea: terrain.calculateRemainingLandArea(),
                 pollution: 0,
-                food: 200,
-                population: 7000
+                food: 150,
+                population: 100,
+                totalDeathsFromStarvation: 0
             };
 
             var game = new Game(initialGameState, gameStateUpdater);
@@ -60,6 +61,7 @@ require(
                 document.getElementById('seaLevel').value = game.state.seaLevel;
                 document.getElementById('buildableLand').value = game.state.buildableLandArea;
                 document.getElementById('population').value = game.state.population;
+                document.getElementById('deathsFromStarvation').value = game.state.totalDeathsFromStarvation;
                 document.getElementById('food').value = game.state.food;
                 document.getElementById('pollution').value = game.state.pollution;
                 document.getElementById('power').value = game.state.powerRemaining;
