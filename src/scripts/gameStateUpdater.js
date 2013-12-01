@@ -3,12 +3,10 @@ define('gameStateUpdater', function() {
     
     return function(terrain, facilityList) {
         this.updateGameState = function(currentState) {
-            var newTick = incrementTick();
-
             var newSeaLevel = updateSeaLevel();
             var newUnfloodedLandArea = terrain.calculateRemainingLandArea();
 
-            var facilityState = facilityList.update(currentState.tick, newUnfloodedLandArea);
+            var facilityState = facilityList.update(newUnfloodedLandArea);
 
             var newBuildableLandArea = facilityState.buildableLandArea;
             var newPollution = updatePollution();
@@ -17,17 +15,12 @@ define('gameStateUpdater', function() {
             updateFoodStarvingPeopleIfNecessary();
 
             return {
-                tick: newTick,
                 seaLevel: newSeaLevel,
                 buildableLandArea: newBuildableLandArea,
                 pollution: newPollution,
                 food: newFood,
                 population: newPopulation
             };
-
-            function incrementTick() {
-                return currentState.tick + 1;
-            }
 
             function updateSeaLevel() {
                 var updatedSeaLevel = currentState.seaLevel + currentState.pollution;

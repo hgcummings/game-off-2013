@@ -292,25 +292,9 @@ define(function (require) {
             expect(nextState.population).toBe(currentState.population);
         });
 
-        it('increments the tick', function() {
+        it('updates facility list with current unflooded land area', function() {
             // Arrange
-            var currentTick = 5;
             var currentState = {
-                tick: currentTick
-            };
-
-            // Act
-            var nextState = gameStateUpdater.updateGameState(currentState);
-
-            // Assert
-            expect(nextState.tick).toBe(currentTick + 1);
-        });
-
-        it('updates facility list with current time and unflooded land area', function() {
-            // Arrange
-            var currentTick = 10;
-            var currentState = {
-                tick: currentTick
             };
 
             var unfloodedLandAreaStub = 500;
@@ -320,7 +304,7 @@ define(function (require) {
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(mockFacilityList.update).toHaveBeenCalledWith(currentState.tick, unfloodedLandAreaStub);
+            expect(mockFacilityList.update).toHaveBeenCalledWith(unfloodedLandAreaStub);
         });
 
     });
