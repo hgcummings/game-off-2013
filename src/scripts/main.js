@@ -24,9 +24,6 @@ require(
 
             var mapElement = document.getElementById('map');
 
-            var monthNamesArray = ["January", "February", "March", "April", "May", "June", "July", "August",
-                "September", "October", "November", "December"];
-
             var n = 13;
 
             var cells = grid.generate(n);
@@ -49,8 +46,8 @@ require(
             };
 
 
-            var ui = new MainUI();
             var game = new Game(initialGameState, gameStateUpdater);
+            var ui = new MainUI();
             var tickCount = 0;
 
             setInterval(function(){
@@ -58,7 +55,7 @@ require(
                     //code goes here that will be run every tick.
                     tickCount++;
                     game.update();
-                    ui.refreshDisplay(game.state);
+                    ui.refreshDisplay(game.state, tickCount);
                     map.redraw();
                 }
             }, 1000);

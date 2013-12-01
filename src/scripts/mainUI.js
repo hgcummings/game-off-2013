@@ -1,12 +1,12 @@
-define('facilitiesUI', ['availableFacilitiesDisplay', 'constructedFacilitiesDisplay'], function(
-    AvailableFacilitiesDisplay,
-    ConstructedFacilitiesDisplay
-    ) {
+define('mainUI', function() {
     'use strict';
 
     return function() {
+        var monthNamesArray = ["January", "February", "March", "April", "May", "June", "July", "August",
+            "September", "October", "November", "December"];
+
         this.refreshDisplay = function(state, tickCount) {
-            document.getElementById('date').value = tickToDate(tickCount);
+            document.getElementById('date').value = this.tickToDate(tickCount);
             document.getElementById('seaLevel').value = state.seaLevel;
             document.getElementById('buildableLand').value = state.buildableLandArea;
             document.getElementById('population').value = state.population;
