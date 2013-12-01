@@ -6,12 +6,12 @@ define('facility', function() {
         this.isPowered = false;
 
 
-       this.shortName = facilityTemplate.shortName;
+        this.shortName = facilityTemplate.shortName;
         this.landCost = facilityTemplate.landCost;
 
         this.name = function() {
-            return facilityTemplate.name + (this.isBuilt() ? "" : " (under construction)");
-        }
+            return facilityTemplate.name + (this.isBuilt() ? '' : ' (under construction)');
+        };
 
         this.energyDelta = function() {
             return this.isOperating ? this.baseEnergyDelta() : 0;
@@ -31,7 +31,7 @@ define('facility', function() {
 
         this.isOperating = function() {
             return this.isPowered || !this.isBuilt();
-        }
+        };
 
         this.getDeltas = function() {
             return this.isBuilt() ? facilityTemplate.normalDelta : facilityTemplate.buildDelta;
