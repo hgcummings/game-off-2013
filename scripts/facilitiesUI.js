@@ -10,11 +10,11 @@ define('facilitiesUI', ['availableFacilitiesDisplay', 'constructedFacilitiesDisp
         var availableFacilitiesDisplay = new AvailableFacilitiesDisplay(availableFacilities, facilityList, facilitiesGui);
         var constructedFacilitiesDisplay = new ConstructedFacilitiesDisplay(facilityList);
 
-        this.update = function(facilities)
+        this.update = function(facilities, researchedFacilities)
         {
-            availableFacilitiesDisplay.displayAvailableFacilities(landArea);
+            availableFacilitiesDisplay.displayAvailableFacilities(researchedFacilities);
             constructedFacilitiesDisplay.displayConstructedFacilities(facilities);
-            facilitiesGui.update(facilityList);
+            facilitiesGui.update(facilities);
         };
 
         this.setAvailableLandArea = function (newLandArea)

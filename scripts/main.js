@@ -3,7 +3,10 @@ require.config({
         'jquery': '//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min',
         'd3': '../lib/d3.v3.min',
         'geodesic': '../lib/geodesic',
-        'underscore': '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min'
+        'underscore': '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min',
+        'async': '../lib/require/async',
+        'goog': '../lib/require/goog',
+        'propertyParser': '../lib/require/propertyParser'
     },
 
     shim: {
@@ -17,8 +20,9 @@ require.config({
     }
 });
 
-require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui'],
-        function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui) {
+require(
+    ['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui', 'mainUI'],
+        function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui, MainUI) {
             'use strict';
 
             var mapElement = document.getElementById('map');
@@ -32,34 +36,30 @@ require(['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'faci
             var map = globe.create(mapElement, cells);
             var gameStateUpdater = new GameStateUpdater(terrain, facilityList);
 
+            facilitiesGui.addFacility(facilityList, 'Coal Power Plant').completeEarly();
+            facilitiesGui.addFacility(facilityList, 'Farm').completeEarly();
+
             var initialGameState = {
-                tick: 0,
                 seaLevel: 0,
                 buildableLandArea: terrain.calculateRemainingLandArea(),
                 pollution: 0,
-                food: 200,
-                population: 7000
+                food: 150,
+                population: 100,
+                totalDeathsFromStarvation: 0
             };
 
-            var game = new Game(initialGameState, gameStateUpdater);
 
-            refreshDisplay();
+            var game = new Game(initialGameState, gameStateUpdater);
+            var ui = new MainUI();
+            var tickCount = 0;
 
             setInterval(function(){
                 if (game.state.population > 0) {
                     //code goes here that will be run every tick.
+                    tickCount++;
                     game.update();
-                    refreshDisplay();
+                    ui.refreshDisplay(game.state, tickCount);
+                    map.redraw();
                 }
             }, 1000);
-
-            function refreshDisplay() {
-                document.getElementById('tick').value = game.state.tick;
-                document.getElementById('seaLevel').value = game.state.seaLevel;
-                document.getElementById('buildableLand').value = game.state.buildableLandArea;
-                document.getElementById('population').value = game.state.population;
-                document.getElementById('food').value = game.state.food;
-                document.getElementById('pollution').value = game.state.pollution;
-                map.redraw();
-            }
         });

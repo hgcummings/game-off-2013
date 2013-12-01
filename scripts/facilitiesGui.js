@@ -48,6 +48,21 @@ define('facilitiesGui', ['jquery', 'd3', 'availableFacilities', 'construction'],
 
         cancelButton.click(closeConstructionContext);
 
+        var addFacility = function(facilityList, facilityName) {
+            var facility = availableFacilities[facilityName];
+            var site = construction.findSite(cells, facility.landCost);
+            return addFacilityAtSite(facilityList, facilityName, site);
+        };
+
+        var addFacilityAtSite = function(facilityList, facilityName, site) {
+            var newFacility = facilityList.addFacility(facilityName, Date.now());
+            site.forEach(function(cell) {
+                cell.facility = newFacility;
+                addAttribute(cell, 'facility-' + newFacility.shortName);
+            });
+            return newFacility;
+        };
+
         var openConstructionContext = function(facilityName, facilityList) {
             closeConstructionContext();
 
@@ -65,14 +80,7 @@ define('facilitiesGui', ['jquery', 'd3', 'availableFacilities', 'construction'],
                         addAttribute(cell, 'potentialSite');
                     });
                     $(currentCell.polygon).on('click.' + NAMESPACE, function() {
-                        facilityList.addFacility(facilityName, Date.now());
-                        // TODO: This is a bit of a roundabout way of getting hold of the facility instance
-                        // that we just added. We should probably alter addFacility to return it instead.
-                        var newFacility = facilityList.getFacility(facilityList.getFacilityCount() - 1);
-                        currentSite.forEach(function(cell) {
-                            cell.facility = newFacility;
-                            addAttribute(cell, 'facility-' + facility.shortName);
-                        });
+                        addFacilityAtSite(facilityList, facilityName, currentSite);
                         closeConstructionContext();
                     });
                 } else {
@@ -83,9 +91,9 @@ define('facilitiesGui', ['jquery', 'd3', 'availableFacilities', 'construction'],
             map.find('path.land').mouseleave(clearCurrentSite);
         };
 
-        var update = function(facilityList) {
+        var update = function(facilities) {
             cells.forEach(function(cell) {
-                if (cell.facility && facilityList.getFacilityIndex(cell.facility) === -1) {
+                if (cell.facility && facilities.indexOf(cell.facility) === -1) {
                     removeAttribute(cell, 'facility-' + cell.facility.shortName);
                     delete(cell.facility);
                 }
@@ -94,7 +102,8 @@ define('facilitiesGui', ['jquery', 'd3', 'availableFacilities', 'construction'],
 
         return {
             openConstructionContext: openConstructionContext,
-            update: update
+            update: update,
+            addFacility: addFacility
         };
     };
 });

@@ -49,7 +49,16 @@ define('construction', ['arrayUtils', 'terrain'], function(arrayUtils, terrain) 
         return site;
     };
 
+    var findSite = function(cells, size) {
+        var site = false;
+        while (!site) {
+            site = placeBuilding(cells, arrayUtils.getRandomElement(cells), size);
+        }
+        return site;
+    };
+
     return {
-        placeBuilding: placeBuilding
+        placeBuilding: placeBuilding,
+        findSite: findSite
     };
 });

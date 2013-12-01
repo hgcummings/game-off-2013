@@ -1,19 +1,22 @@
-define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facilitiesUI'],
-    function(_, availableFacilities,  Facility, FacilitiesUI) {
+define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facilitiesUI', 'researchTracker'],
+    function(_, availableFacilities,  Facility, FacilitiesUI, ResearchTracker) {
     'use strict';
 
     return function(facilitiesGui) {
         var facilities = [];
-        var baseEnergyOutput = 5;
         var facilitiesUI = new FacilitiesUI(this, availableFacilities, facilitiesGui);
-        this.addFacility = function(facilityName, currentTime) {
-            facilities.push([new Facility(availableFacilities[facilityName]), currentTime]);
-            facilitiesUI.update(facilities);
+        var researchTracker = new ResearchTracker(availableFacilities);
+
+        this.addFacility = function(facilityName) {
+            var facilityInstance = new Facility(availableFacilities[facilityName]);
+            facilities.push(facilityInstance);
+            facilitiesUI.update(facilities, researchTracker.getResearchedFacilities());
+            return facilityInstance;
         };
 
         this.removeFacility = function(facility) {
-            facilities.splice(this.getFacilityIndex(facility), 1);
-            facilitiesUI.update(facilities);
+            facilities.splice(facilities.indexOf(facility), 1);
+            facilitiesUI.update(facilities, researchTracker.getResearchedFacilities());
         };
 
         this.getFacilityCount = function() {
@@ -21,40 +24,53 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
         };
 
         this.getFacility = function(index) {
-            return facilities[index][0];
+            return facilities[index];
         };
 
-        this.getFacilityIndex = function(facility) {
-            return _.map(facilities, function(x) { return x[0]; }).indexOf(facility);
-        };
+        this.update = function(unfloodedLandArea) {
+            var netPowerIfAllPowered = _.reduce(facilities, function(sum, next) {
+                return sum + next.energyDelta();
+            }, 0);
 
-        this.update = function(currentTick, unfloodedLandArea) {
+            var sortedFacilities = _.sortBy(facilities, function(facility) {
+                if (facility.isBuilt() && facility.baseEnergyDelta() > 0) {
+                    return 0;
+                } else {
+                    return facility.isBuilt() ? 2 : 1;
+                }
+            });
 
-            var grossEnergyProduced = _.reduce(facilities, function(sum, next) {
-                var delta = next[0].energyDelta();
-                var energyProduced = delta > 0 ? delta : 0;
-                return sum + energyProduced;
-            }, baseEnergyOutput);
-
-            _.reduce(facilities, function(energy, next) {
-                return next[0].update(energy);
-            }, grossEnergyProduced);
+            _.reduce(sortedFacilities, function(energy, next) {
+                return next.update(energy);
+            }, 0);
 
             var foodDelta =  _.reduce(facilities, function(sum, next) {
-                return sum + next[0].foodDelta();
+                return sum + next.foodDelta();
             }, 0);
-            var pollutionDelta = _.reduce(facilities, function(sum, next) { return sum + next[0].pollutionDelta(); }, 0);
 
-            var consumedLandArea = _.reduce(facilities, function(sum, next) { return sum + next[0].landCost; }, 0);
+            var pollutionDelta = _.reduce(facilities, function(sum, next) {
+                return sum + next.pollutionDelta();
+            }, 0);
+
+            var researchDelta = _.reduce(facilities, function(sum, next) {
+                return sum + next.researchDelta();
+            }, 0);
+
+            researchTracker.update(researchDelta);
+
+            var consumedLandArea = _.reduce(facilities, function(sum, next) {
+                return sum + next.landCost;
+            }, 0);
+
             var buildableLandArea = unfloodedLandArea - consumedLandArea;
 
-            facilitiesUI.setAvailableLandArea(buildableLandArea);
-            facilitiesUI.update(facilities);
+            facilitiesUI.update(facilities, researchTracker.getResearchedFacilities());
 
             return {
                 buildableLandArea: buildableLandArea,
                 pollutionDelta: pollutionDelta,
-                foodDelta: foodDelta
+                foodDelta: foodDelta,
+                powerRemaining: netPowerIfAllPowered
             };
         };
     };

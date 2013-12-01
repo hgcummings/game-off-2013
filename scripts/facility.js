@@ -3,14 +3,18 @@ define('facility', function() {
 
     return function(facilityTemplate) {
         var timeBuilt = 0;
-        this.isPowered = false;
+        this.hasPower = false;
 
-        this.name = facilityTemplate.name;
+
         this.shortName = facilityTemplate.shortName;
         this.landCost = facilityTemplate.landCost;
 
+        this.name = function() {
+            return facilityTemplate.name + (this.isBuilt() ? '' : ' (under construction)');
+        };
+
         this.energyDelta = function() {
-            return this.isPowered ? this.baseEnergyDelta() : 0;
+            return this.hasPower ? this.baseEnergyDelta() : 0;
         };
 
         this.baseEnergyDelta = function() {
@@ -18,15 +22,19 @@ define('facility', function() {
         };
 
         this.pollutionDelta = function() {
-            return this.isPowered ? this.getDeltas().pollution : 0;
+            return this.hasPower ? this.getDeltas().pollution : 0;
         };
 
         this.foodDelta = function() {
-            return this.isPowered ? this.getDeltas().food : 0;
+            return this.hasPower ? this.getDeltas().food : 0;
+        };
+
+        this.researchDelta = function() {
+            return this.hasPower ? this.getDeltas().research : 0;
         };
 
         this.getDeltas = function() {
-            return this.isBuilt() ? facilityTemplate.normalDelta : facilityTemplate.buildDelta ;
+            return this.isBuilt() ? facilityTemplate.normalDelta : facilityTemplate.buildDelta;
         };
 
         this.isBuilt = function()
@@ -34,13 +42,17 @@ define('facility', function() {
             return timeBuilt >= facilityTemplate.buildDuration;
         };
 
+        this.completeEarly = function() {
+            timeBuilt = facilityTemplate.buildDuration;
+        };
+
         this.update = function(remainingPower) {
             if (remainingPower >= -this.baseEnergyDelta()) {
                 timeBuilt++;
-                this.isPowered = true;
-                return remainingPower + (this.baseEnergyDelta() < 0 ? this.baseEnergyDelta() : 0);
+                this.hasPower = true;
+                return remainingPower + (this.baseEnergyDelta());
             } else {
-                this.isPowered = false;
+                this.hasPower = false;
                 return remainingPower;
             }
         };

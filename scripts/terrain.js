@@ -64,22 +64,7 @@ define('terrain', ['d3', 'arrayUtils'], function(d3, arrayUtils) {
                     if (cell.altitude < seaLevel) {
                         cell.attributes[0] = 'sea';
                         if (cell.facility) {
-                            var facilityToRemove = cell.facility;
-                            var findAllSiteCells = function(currentCell) {
-                                if (currentCell.facility === facilityToRemove && site.indexOf(currentCell) === -1) {
-                                    site.push(currentCell);
-                                    currentCell.neighbours.forEach(findAllSiteCells);
-                                }
-                            };
-
-                            var site = [];
-                            findAllSiteCells(cell);
-                            site.forEach(function(siteCell) {
-                                delete(siteCell.facility);
-                            });
-
-                            console.log('removing facility');
-                            facilityList.removeFacility(facilityToRemove);
+                            facilityList.removeFacility(cell.facility);
                         }
                     } else {
                         cell.attributes[0] = 'land';

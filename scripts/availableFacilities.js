@@ -3,37 +3,174 @@ define('availableFacilities', ['underscore'], function(_) {
 
     var facilities = [
         {
-            facilityId: 1,
             name: 'Farm',
             shortName: 'farm',
-            landCost: 2,
-            buildDuration: 1,
+            landCost: 7,
+            buildDuration: 5,
+            researchDifficulty:0,
             buildDelta: {
-                energy: -1,
-                pollution: 1,
-                food: 0
+                energy: -20,
+                pollution: 0,
+                food: 0,
+                research:0
             },
             normalDelta: {
-                energy: -1,
+                energy: -20,
                 pollution: 0,
-                food: 100
+                food: 115,
+                research:0
             }
         },
         {
-            facilityId: 2,
-            name: 'Coal Power Plant',
-            shortName: 'coal',
-            landCost: 4,
-            buildDuration: 3,
+            name: 'Ranch',
+            shortName: 'ranch',
+            landCost: 2,
+            buildDuration: 2,
+            researchDifficulty:0,
             buildDelta: {
-                energy: -2,
-                pollution: 5,
-                food: 0
+                energy: -20,
+                pollution: 0,
+                food: 0,
+                research:0
             },
             normalDelta: {
-                energy: 2,
+                energy: -10,
+                pollution: 2,
+                food: 115,
+                research:0
+            }
+        },
+        {
+            name: 'Coal Power Plant',
+            shortName: 'coal',
+            landCost: 2,
+            buildDuration: 3,
+            researchDifficulty:0,
+            buildDelta: {
+                energy: -20,
+                pollution: 10,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: 20,
+                pollution: 2,
+                food: 0,
+                research:0
+            }
+        },
+        {
+            name: 'Oil Power Plant',
+            shortName: 'oil',
+            landCost: 7,
+            buildDuration: 8,
+            researchDifficulty:1,
+            buildDelta: {
+                energy: -40,
+                pollution: 10,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: 50,
+                pollution: 4,
+                food: 0,
+                research:0
+            }
+        },
+        {
+            name: 'Wind Power Plant',
+            shortName: 'wind',
+            landCost: 19,
+            buildDuration: 20,
+            researchDifficulty:3,
+            buildDelta: {
+                energy: -40,
+                pollution: 8,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: 10,
+                pollution: 0,
+                food: 0,
+                research:0
+            }
+        },
+        {
+            name: 'Nuclear Power Plant',
+            shortName: 'nuclear',
+            landCost: 1,
+            buildDuration: 50,
+            researchDifficulty:3,
+            buildDelta: {
+                energy: -100,
+                pollution: 16,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: 100,
+                pollution: 2,
+                food: 0,
+                research:0
+            }
+        },
+        {
+            name: 'Biomass Power Plant',
+            shortName: 'biomass',
+            landCost: 4,
+            buildDuration: 2,
+            researchDifficulty:1,
+            buildDelta: {
+                energy: -10,
+                pollution: 2,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: 15,
                 pollution: 1,
-                food: 0
+                food: -80,
+                research:0
+            }
+        },
+        {
+            name: 'Recycling Facility',
+            shortName: 'recycling',
+            landCost: 10,
+            buildDuration: 30,
+            researchDifficulty:3,
+            buildDelta: {
+                energy: -5,
+                pollution: 2,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: -3,
+                food: 0,
+                pollution: -2,
+                research:0
+            }
+        },
+        {
+            name: 'Research Lab',
+            shortName: 'lab',
+            landCost: 3,
+            buildDuration: 10,
+            researchDifficulty:0,
+            buildDelta: {
+                energy: -5,
+                pollution: 0,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: -2,
+                food: 0,
+                pollution: 0,
+                research:1
             }
         }
     ];

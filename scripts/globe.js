@@ -6,16 +6,16 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
             var origin = [0, -5];
 
             var projection = d3.geo.orthographic()
-                .translate([parent.clientWidth / 2, parent.clientHeight / 2])
+                .translate([parent.clientWidth / 2, parent.clientWidth / 2])
                 .rotate(origin)
-                .scale(Math.min(parent.clientHeight, parent.clientWidth) * 11 / 24)
+                .scale(Math.min(parent.clientWidth, parent.clientWidth) * 11 / 24)
                 .clipAngle(90);
 
             var path = d3.geo.path().projection(projection);
 
             var svg = d3.select(parent).append('svg')
                 .attr('width', parent.clientWidth)
-                .attr('height', parent.clientHeight);
+                .attr('height', parent.clientWidth);
 
             var polygons = svg.selectAll('path')
                 .data(cells)
@@ -39,7 +39,7 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
                         hints.push('Altitude: ' + cell.altitude);
                     }
                     if (cell.facility) {
-                        hints.push(cell.facility.name);
+                        hints.push(cell.facility.name());
                     }
                     hintText.text(hints.join(', '));
                 });

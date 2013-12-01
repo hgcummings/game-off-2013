@@ -3,52 +3,87 @@
 <head>
     <title></title>
     <script data-main="scripts/main" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js"></script>
+    <!--<script type='text/javascript' src='https://www.google.com/jsapi'></script>-->
+    <!--<script type='text/javascript'>-->
+        <!--google.load('visualization', '1', {packages:['gauge']});-->
+    <!--</script>-->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.1/slate/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
     <style>
-        #map {
-            width: 600px;
-            height: 600px;
-        }
-
-        svg {
+        #map svg {
             background-color: black;
         }
 
-        path {
+        #map path {
             stroke: black;
             fill: white;
         }
 
-        path.land {
+        #map path.land {
             fill: LimeGreen;
             stroke: LimeGreen;
         }
 
-        path.sea {
+        #map path.sea {
             fill: DodgerBlue;
             stroke: DodgerBlue;
         }
 
-        path.land.polar {
+        #map path.land.polar {
             fill: White;
             stroke: White;
         }
 
-        path.sea.polar {
+        #map path.sea.polar {
             fill: LightCyan;
             stroke: LightCyan;
         }
 
-        path.land.facility-coal {
+        #map path.land.facility-coal {
             fill: #444;
             stroke: #444;
         }
 
-        path.land.facility-farm {
+        #map path.land.facility-oil {
+            fill: #3f3d62;
+            stroke: #3f3d62;
+        }
+
+        #map path.land.facility-farm {
             fill: Goldenrod;
             stroke: Goldenrod;
         }
+
+        #map path.land.facility-wind {
+            fill: #AEF;
+            stroke: #AEF;
+        }
+
+        #map path.land.facility-nuclear {
+            fill: #FF8;
+            stroke: #FF8;
+        }
+
+        #map path.land.facility-ranch {
+            fill: rgba(152, 58, 37, 0.98);
+            stroke: rgba(152, 58, 37, 0.98);
+        }
+
+        #map path.land.facility-biomass {
+            fill: #aa6613;
+            stroke: #aa6613;
+        }
+
+        #map path.land.facility-recycling {
+            fill: Cyan;
+            stroke: Cyan;
+        }
+
+        path.land.facility-lab {
+            fill: #c953ff;
+            stroke: #c953ff;
+        }
+
 
         #map.buildMode path.land {
             stroke: Black;
@@ -63,12 +98,6 @@
             fill: Lime;
         }
 
-        circle {
-            fill: none;
-            stroke: #000;
-            stroke-width: 2px;
-        }
-
         table th {
             text-align: center;
         }
@@ -78,32 +107,50 @@
             font-size: 0.9em;
         }
 
+        #map {
+            padding: 0;
+        }
+
         #map, #constructedFacilities {
             clear: both;
         }
 
         #hintText {
             position: absolute;
+            bottom: 4px;
+            left: 4px;
+        }
+
+        #date {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+        }
+
+        #population {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+        }
+
+        #charts .chart {
+            display: inline-block;
         }
     </style>
 </head>
 <body>
     <div id="game" class="container">
         <h2>World map</h2>
-        <div class="col-md-4 form-inline">
-                <label for="tick" class="col-md-6">Tick:
-                <input type="text" id="tick" readonly="true" /></label>
-                <label for="seaLevel" class="col-md-6">Sea level (m):
-                <input type="text" id="seaLevel" readonly="true" /></label>
-                <label for="buildableLand" class="col-md-6">Buildable land (km&sup2;):
-                <input type="text" id="buildableLand" readonly="true" /></label>
-                <label for="population" class="col-md-6">Population:
-                <input type="text" id="population" readonly="true" /></label>
-                <label for="food" class="col-md-6">Food supplies:
-                <input type="text" id="food" readonly="true" /></label>
-                <label for="pollution" class="col-md-6">Pollution level:
-                <input type="text" id="pollution" readonly="true" /></label>
+
+        <div id="map" class="col-md-6">
+            <div id="hintText"></div>
+            <div id="date"></div>
+            <div id="population"></div>
         </div>
+        <div id="charts" class="col-md-6">
+
+        </div>
+
         <div class="col-md-6">
             <table id="availableFacilities">
                 <tr>
@@ -118,10 +165,7 @@
                 </tr>
             </table>
         </div>
-        <div id="map">
-            <div id="hintText"></div>
-        </div>
-        <table id="constructedFacilities">
+        <table class="col-md-6" id="constructedFacilities">
             <tr>
                 <th>Name</th>
                 <th>Space Used</th>
