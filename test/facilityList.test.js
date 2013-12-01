@@ -16,7 +16,7 @@ define(function (require) {
 
                 // Assert
                 expect(resultCount).toEqual(1);
-                expect(result.name).toEqual('Farm');
+                expect(result.name()).toEqual('Farm (under construction)');
             });
 
             // add duplicate facilities
@@ -50,7 +50,7 @@ define(function (require) {
                 facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
-                var result = facilityList.update(0, 20);
+                var result = facilityList.update(20);
 
                 // Assert
                 expect(result.buildableLandArea).toEqual(14);
@@ -63,10 +63,10 @@ define(function (require) {
                 facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
-                var result = facilityList.update(0, 20);
+                var result = facilityList.update(20);
 
                 // Assert
-                expect(result.pollutionDelta).toEqual(112);
+                expect(result.pollutionDelta).toEqual(6);
             });
 
             it('returns in construction food delta', function() {
@@ -76,7 +76,7 @@ define(function (require) {
                 facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
-                var result = facilityList.update(0, 20);
+                var result = facilityList.update(20);
 
                 // Assert
                 expect(result.foodDelta).toEqual(0);
@@ -89,11 +89,13 @@ define(function (require) {
                 facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
-                facilityList.update(3050, 20);
-                var result = facilityList.update(3051, 20);
+                facilityList.update(20);
+                facilityList.update(20);
+                facilityList.update(20);
+                var result = facilityList.update(20);
 
                 // Assert
-                expect(result.pollutionDelta).toEqual(80);
+                expect(result.pollutionDelta).toEqual(1);
             });
 
             it('returns normal operation food delta', function() {
@@ -103,52 +105,37 @@ define(function (require) {
                 facilityList.addFacility('Coal Power Plant', 2);
 
                 // Act
-                facilityList.update(1050, 20);
-                var result = facilityList.update(1051, 20);
+                facilityList.update(20);
+                var result = facilityList.update(20);
 
                 // Assert
-                expect(result.foodDelta).toEqual(32);
+                expect(result.foodDelta).toEqual(100);
             });
 
-            it('does not complete construction of facilities after 900 ticks in two updates', function() {
+            it('does not complete construction of facilities before they\'re finished', function() {
+                // Arrange
+                var facilityList = new FacilityList();
+                facilityList.addFacility('Coal Power Plant', 1);
+
+                // Act
+                facilityList.update(20);
+                var result = facilityList.getFacility(0);
+
+                // Assert
+                expect(result.name()).toEqual('Coal Power Plant (under construction)');
+            });
+
+            it('completes construction of facilities', function() {
                 // Arrange
                 var facilityList = new FacilityList();
                 facilityList.addFacility('Farm', 1);
 
                 // Act
-                facilityList.update(450, 20);
-                facilityList.update(900, 20);
+                facilityList.update(20);
                 var result = facilityList.getFacility(0);
 
                 // Assert
-                expect(result.name).toEqual('Farm (under construction)');
-            });
-
-            it('completes construction of facilities after 1000 ticks in two updates', function() {
-                // Arrange
-                var facilityList = new FacilityList();
-                facilityList.addFacility('Farm', 1);
-
-                // Act
-                facilityList.update(500, 20);
-                facilityList.update(1050, 20);
-                var result = facilityList.getFacility(0);
-
-                // Assert
-                expect(result.name).toEqual('Farm');
-            });
-
-            it('completes construction of facilities after 1000 ticks in one update', function() {
-                // Arrange
-                var facilityList = new FacilityList();
-                facilityList.addFacility('Farm', 1);
-
-                // Act
-                facilityList.update(1050, 20);
-                var result = facilityList.getFacility(0);
-
-                // Assert
-                expect(result.name).toEqual('Farm');
+                expect(result.name()).toEqual('Farm');
             });
 
             it('updates remaining energy');

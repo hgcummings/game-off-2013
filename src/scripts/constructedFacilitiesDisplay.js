@@ -6,7 +6,7 @@ define('constructedFacilitiesDisplay', ['jquery'], function($) {
         this.displayConstructedFacilities = function(facilities) {
             constructedFacilities.find('tr.constructed-facility').remove();
             $.each(facilities, function() {
-                var facility = this[0];
+                var facility = this.facility;
                 var facilityDisplay = $('<tr/>',{ class:'constructed-facility' });
                 facilityDisplay.append(getEntryForValue(facility.name));
                 facilityDisplay.append(getEntryForValue(facility.landCost));
@@ -14,9 +14,9 @@ define('constructedFacilitiesDisplay', ['jquery'], function($) {
                 facilityDisplay.append(getEntryForValue(facility.foodDelta()));
                 facilityDisplay.append(getEntryForValue(facility.pollutionDelta()));
                 facilityDisplay.append(getDemolitionButtonForFacility(facility));
-                if (!this[0].isPowered) {
+                if (!facility.isPowered) {
                     facilityDisplay.css('color','red');
-                } else if(!this[0].isBuilt()) {
+                } else if(!facility.isBuilt()) {
                     facilityDisplay.css('color','gray');
                 } else {
                     facilityDisplay.css('color','black');
