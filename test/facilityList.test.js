@@ -61,13 +61,15 @@ define(function (require) {
             it('returns in construction pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Wind Power Plant').completeEarly();
+                facilityList.addFacility('Farm');
 
                 // Act
+                facilityList.update(20);
                 var result = facilityList.update(20);
 
                 // Assert
-                expect(result.pollutionDelta).toEqual(availableFacilities['Coal Power Plant'].buildDelta.pollution );
+                expect(result.pollutionDelta).toEqual(availableFacilities['Coal Power Plant'].buildDelta.pollution);
             });
 
             it('returns in construction food delta', function() {
@@ -86,13 +88,10 @@ define(function (require) {
             it('returns normal operation pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Farm').completeEarly();
+                facilityList.addFacility('Coal Power Plant').completeEarly();
 
                 // Act
-                facilityList.update(20);
-                facilityList.update(20);
-                facilityList.update(20);
                 var result = facilityList.update(20);
 
                 // Assert
@@ -103,7 +102,7 @@ define(function (require) {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Farm');
-                facilityList.addFacility('Coal Power Plant');
+                facilityList.addFacility('Coal Power Plant').completeEarly();
 
                 // Act
                 facilityList.update(20);
@@ -128,19 +127,19 @@ define(function (require) {
 
             it('completes construction of facilities', function() {
                 // Arrange
+                console.log('############################################');
                 var facilityList = new FacilityList(mockUI);
+                facilityList.addFacility('Coal Power Plant').completeEarly();
                 facilityList.addFacility('Farm');
 
                 // Act
                 facilityList.update(20);
                 facilityList.update(20);
-                var result = facilityList.getFacility(0);
+                var result = facilityList.getFacility(1);
 
                 // Assert
                 expect(result.name()).toEqual('Farm');
             });
-
-            it('updates remaining energy');
         });
 
     });

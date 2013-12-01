@@ -27,10 +27,12 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
         };
 
         this.update = function(unfloodedLandArea) {
-
-            var sortedFacilities = _.sortBy(facilities, function(facility) { return facility.isBuilt(); });
-            sortedFacilities = _.sortBy(sortedFacilities, function(facility) {
-                return facility.baseEnergyDelta() > 0;
+            var sortedFacilities = _.sortBy(facilities, function(facility) {
+                if (facility.isBuilt() && facility.baseEnergyDelta() > 0) {
+                    return 0;
+                } else {
+                    return facility.isBuilt() ? 2 : 1;
+                }
             });
 
             _.reduce(sortedFacilities, function(energy, next) {
