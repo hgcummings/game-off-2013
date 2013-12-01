@@ -1,9 +1,9 @@
-define('researchTracker', function() {
+define('researchTracker', ['underscore'], function(_) {
     'use strict';
     return function(availableFacilities) {
 
         var researchedFacilitiesLookup = _.object(_.map(availableFacilities, function(item) {
-            return [item.name, item.researchDifficulty == 0];
+            return [item.name, item.researchDifficulty === 0];
         }));
 
         var researchableFacilities = _.filter(availableFacilities, function(facility){
@@ -43,6 +43,6 @@ define('researchTracker', function() {
                     }
                 }
             });
-        }
+        };
     };
 });

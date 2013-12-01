@@ -6,7 +6,8 @@ require.config({
         'underscore': '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min',
         'async': '../lib/require/async',
         'goog': '../lib/require/goog',
-        'propertyParser': '../lib/require/propertyParser'
+        'propertyParser': '../lib/require/propertyParser',
+        'bootstrap': '//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min'
     },
 
     shim: {
@@ -16,12 +17,13 @@ require.config({
         'd3': {
             exports: 'd3'
         },
-        'geodesic': ['d3']
+        'geodesic': ['d3'],
+        'bootstrap': ['jquery']
     }
 });
 
 require(
-    ['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui', 'mainUI'],
+    ['jquery', 'game', 'gameStateUpdater', 'grid', 'globe', 'terrain', 'facilityList','facilitiesGui', 'mainUI', 'bootstrap'],
         function($, Game, GameStateUpdater, grid, globe, terrainFactory, FacilityList, FacilitiesGui, MainUI) {
             'use strict';
 
@@ -38,6 +40,7 @@ require(
 
             facilitiesGui.addFacility(facilityList, 'Coal Power Plant').completeEarly();
             facilitiesGui.addFacility(facilityList, 'Farm').completeEarly();
+            facilitiesGui.addFacility(facilityList, 'Coal Power Plant').completeEarly();
 
             var initialGameState = {
                 seaLevel: 0,
@@ -52,6 +55,11 @@ require(
             var game = new Game(initialGameState, gameStateUpdater);
             var ui = new MainUI();
             var tickCount = 0;
+
+            $('#facilitiesTabs a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            }).last().click();
 
             setInterval(function(){
                 if (game.state.population > 0) {

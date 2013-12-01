@@ -10,7 +10,7 @@ define('constructedFacilitiesDisplay', ['jquery'], function($) {
                 var facilityDisplay = $('<tr/>',{ class:'constructed-facility' });
                 facilityDisplay.append(getEntryForValue(facility.name()));
                 facilityDisplay.append(getEntryForValue(facility.landCost));
-                facilityDisplay.append(getEntryForValue(facility.energyDelta()));
+                facilityDisplay.append(getEntryForValue(facility.baseEnergyDelta()));
                 facilityDisplay.append(getEntryForValue(facility.foodDelta()));
                 facilityDisplay.append(getEntryForValue(facility.pollutionDelta()));
                 facilityDisplay.append(getDemolitionButtonForFacility(facility));

@@ -29,7 +29,7 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
 
         this.update = function(unfloodedLandArea) {
             var netPowerIfAllPowered = _.reduce(facilities, function(sum, next) {
-                return sum + next.energyDelta();
+                return sum + next.baseEnergyDelta();
             }, 0);
 
             var sortedFacilities = _.sortBy(facilities, function(facility) {
