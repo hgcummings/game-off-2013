@@ -6,7 +6,7 @@ define('constructedFacilitiesDisplay', ['jquery'], function($) {
         this.displayConstructedFacilities = function(facilities) {
             constructedFacilities.find('tr.constructed-facility').remove();
             $.each(facilities, function() {
-                var facility = this.facility;
+                var facility = this;
                 var facilityDisplay = $('<tr/>',{ class:'constructed-facility' });
                 facilityDisplay.append(getEntryForValue(facility.name()));
                 facilityDisplay.append(getEntryForValue(facility.landCost));

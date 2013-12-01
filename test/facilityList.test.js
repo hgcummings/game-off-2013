@@ -12,7 +12,7 @@ define(function (require) {
                 var facilityList = new FacilityList(mockUI);
 
                 // Act
-                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Farm');
                 var resultCount = facilityList.getFacilityCount();
                 var result = facilityList.getFacility(0);
 
@@ -28,8 +28,8 @@ define(function (require) {
            it('removes a facility', function() {
                // Arrange
                var facilityList = new FacilityList(mockUI);
-               facilityList.addFacility('Farm', 1);
-               facilityList.addFacility('Coal Power Plant', 2);
+               facilityList.addFacility('Farm');
+               facilityList.addFacility('Coal Power Plant');
                var farm = facilityList.getFacility(0);
                var powerPlant = facilityList.getFacility(1);
 
@@ -48,8 +48,8 @@ define(function (require) {
             it('returns buildable land area', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Farm', 1);
-                facilityList.addFacility('Coal Power Plant', 2);
+                facilityList.addFacility('Farm');
+                facilityList.addFacility('Coal Power Plant');
 
                 // Act
                 var result = facilityList.update(20);
@@ -61,7 +61,7 @@ define(function (require) {
             it('returns in construction pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Coal Power Plant', 2);
+                facilityList.addFacility('Coal Power Plant');
 
                 // Act
                 var result = facilityList.update(20);
@@ -86,8 +86,8 @@ define(function (require) {
             it('returns normal operation pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Farm', 1);
-                facilityList.addFacility('Coal Power Plant', 2);
+                facilityList.addFacility('Farm');
+                facilityList.addFacility('Coal Power Plant');
 
                 // Act
                 facilityList.update(20);
@@ -102,8 +102,8 @@ define(function (require) {
             it('returns normal operation food delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Farm', 1);
-                facilityList.addFacility('Coal Power Plant', 2);
+                facilityList.addFacility('Farm');
+                facilityList.addFacility('Coal Power Plant');
 
                 // Act
                 facilityList.update(20);
@@ -129,7 +129,7 @@ define(function (require) {
             it('completes construction of facilities', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Farm', 1);
+                facilityList.addFacility('Farm');
 
                 // Act
                 facilityList.update(20);

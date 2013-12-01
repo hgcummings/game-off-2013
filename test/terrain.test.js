@@ -166,17 +166,10 @@ define(['require', 'Squire', 'rng'], function (require, Squire, RNG) {
 
                 var facility = { type: 'Food Factory' };
                 lowLyingCell.facility = facility;
-                lowLyingCell.neighbours[0].facility = facility;
-                lowLyingCell.neighbours[1].facility = { type: 'Power plant' };
-                lowLyingCell.neighbours[0].neighbours[0].facility = facility;
 
                 instance.updateSeaLevel(30);
 
                 expect(mockFacilityList.removeFacility).toHaveBeenCalledWith(facility);
-                expect(lowLyingCell.facility).toBeUndefined();
-                expect(lowLyingCell.neighbours[0].facility).toBeUndefined();
-                expect(lowLyingCell.neighbours[0].neighbours[0].facility).toBeUndefined();
-                expect(lowLyingCell.neighbours[1].facility).toBeDefined();
             });
         });
 
