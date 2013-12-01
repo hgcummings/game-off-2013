@@ -29,6 +29,10 @@ define('facility', function() {
             return this.hasPower ? this.getDeltas().food : 0;
         };
 
+        this.researchDelta = function() {
+            return this.hasPower ? this.getDeltas().research : 0;
+        };
+
         this.getDeltas = function() {
             return this.isBuilt() ? facilityTemplate.normalDelta : facilityTemplate.buildDelta;
         };

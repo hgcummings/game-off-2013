@@ -7,15 +7,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'farm',
             landCost: 7,
             buildDuration: 5,
+            researchDifficulty:0,
             buildDelta: {
                 energy: -20,
                 pollution: 0,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: -20,
                 pollution: 0,
-                food: 115
+                food: 115,
+                research:0
             }
         },
         {
@@ -23,15 +26,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'ranch',
             landCost: 2,
             buildDuration: 2,
+            researchDifficulty:0,
             buildDelta: {
                 energy: -20,
                 pollution: 0,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: -10,
                 pollution: 2,
-                food: 115
+                food: 115,
+                research:0
             }
         },
         {
@@ -39,15 +45,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'coal',
             landCost: 2,
             buildDuration: 3,
+            researchDifficulty:0,
             buildDelta: {
                 energy: -20,
                 pollution: 10,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: 20,
                 pollution: 2,
-                food: 0
+                food: 0,
+                research:0
             }
         },
         {
@@ -55,15 +64,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'oil',
             landCost: 7,
             buildDuration: 8,
+            researchDifficulty:1,
             buildDelta: {
                 energy: -40,
                 pollution: 10,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: 50,
                 pollution: 4,
-                food: 0
+                food: 0,
+                research:0
             }
         },
         {
@@ -71,15 +83,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'wind',
             landCost: 19,
             buildDuration: 20,
+            researchDifficulty:3,
             buildDelta: {
                 energy: -40,
                 pollution: 8,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: 10,
                 pollution: 0,
-                food: 0
+                food: 0,
+                research:0
             }
         },
         {
@@ -87,15 +102,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'nuclear',
             landCost: 1,
             buildDuration: 50,
+            researchDifficulty:3,
             buildDelta: {
                 energy: -100,
                 pollution: 16,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: 100,
                 pollution: 2,
-                food: 0
+                food: 0,
+                research:0
             }
         },
         {
@@ -103,15 +121,18 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'biomass',
             landCost: 4,
             buildDuration: 2,
+            researchDifficulty:1,
             buildDelta: {
                 energy: -10,
                 pollution: 2,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: 15,
                 pollution: 1,
-                food: -80
+                food: -80,
+                research:0
             }
         },
         {
@@ -119,15 +140,37 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'recycling',
             landCost: 10,
             buildDuration: 30,
+            researchDifficulty:3,
             buildDelta: {
                 energy: -5,
                 pollution: 2,
-                food: 0
+                food: 0,
+                research:0
             },
             normalDelta: {
                 energy: -3,
                 food: 0,
-                pollution: -2
+                pollution: -2,
+                research:0
+            }
+        },
+        {
+            name: 'Research Lab',
+            shortName: 'lab',
+            landCost: 3,
+            buildDuration: 10,
+            researchDifficulty:0,
+            buildDelta: {
+                energy: -5,
+                pollution: 0,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: -2,
+                food: 0,
+                pollution: 0,
+                research:1
             }
         }
     ];

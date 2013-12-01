@@ -1,21 +1,22 @@
-define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facilitiesUI'],
-    function(_, availableFacilities,  Facility, FacilitiesUI) {
+define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facilitiesUI', 'researchTracker'],
+    function(_, availableFacilities,  Facility, FacilitiesUI, ResearchTracker) {
     'use strict';
 
     return function(facilitiesGui) {
         var facilities = [];
         var facilitiesUI = new FacilitiesUI(this, availableFacilities, facilitiesGui);
+        var researchTracker = new ResearchTracker(availableFacilities);
 
         this.addFacility = function(facilityName) {
             var facilityInstance = new Facility(availableFacilities[facilityName]);
             facilities.push(facilityInstance);
-            facilitiesUI.update(facilities);
+            facilitiesUI.update(facilities, researchTracker.getResearchedFacilities());
             return facilityInstance;
         };
 
         this.removeFacility = function(facility) {
             facilities.splice(facilities.indexOf(facility), 1);
-            facilitiesUI.update(facilities);
+            facilitiesUI.update(facilities, researchTracker.getResearchedFacilities());
         };
 
         this.getFacilityCount = function() {
@@ -51,14 +52,19 @@ define('facilityList', ['underscore', 'availableFacilities',  'facility', 'facil
                 return sum + next.pollutionDelta();
             }, 0);
 
+            var researchDelta = _.reduce(facilities, function(sum, next) {
+                return sum + next.researchDelta();
+            }, 0);
+
+            researchTracker.update(researchDelta);
+
             var consumedLandArea = _.reduce(facilities, function(sum, next) {
                 return sum + next.landCost;
             }, 0);
 
             var buildableLandArea = unfloodedLandArea - consumedLandArea;
 
-            facilitiesUI.setAvailableLandArea(buildableLandArea);
-            facilitiesUI.update(facilities);
+            facilitiesUI.update(facilities, researchTracker.getResearchedFacilities());
 
             return {
                 buildableLandArea: buildableLandArea,
