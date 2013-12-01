@@ -8,12 +8,12 @@ define('availableFacilities', ['underscore'], function(_) {
             landCost: 7,
             buildDuration: 5,
             buildDelta: {
-                energy: -2,
+                energy: -20,
                 pollution: 0,
                 food: 0
             },
             normalDelta: {
-                energy: -2,
+                energy: -20,
                 pollution: 0,
                 food: 115
             }
@@ -24,13 +24,13 @@ define('availableFacilities', ['underscore'], function(_) {
             landCost: 2,
             buildDuration: 2,
             buildDelta: {
-                energy: -2,
+                energy: -20,
                 pollution: 0,
                 food: 0
             },
             normalDelta: {
-                energy: -1,
-                pollution: 1,
+                energy: -10,
+                pollution: 2,
                 food: 115
             }
         },
@@ -40,13 +40,29 @@ define('availableFacilities', ['underscore'], function(_) {
             landCost: 2,
             buildDuration: 3,
             buildDelta: {
-                energy: -2,
-                pollution: 5,
+                energy: -20,
+                pollution: 10,
                 food: 0
             },
             normalDelta: {
-                energy: 2,
-                pollution: 1,
+                energy: 20,
+                pollution: 2,
+                food: 0
+            }
+        },
+        {
+            name: 'Oil Power Plant',
+            shortName: 'oil',
+            landCost: 7,
+            buildDuration: 8,
+            buildDelta: {
+                energy: -40,
+                pollution: 10,
+                food: 0
+            },
+            normalDelta: {
+                energy: 50,
+                pollution: 4,
                 food: 0
             }
         },
@@ -56,12 +72,12 @@ define('availableFacilities', ['underscore'], function(_) {
             landCost: 19,
             buildDuration: 20,
             buildDelta: {
-                energy: -4,
-                pollution: 4,
+                energy: -40,
+                pollution: 8,
                 food: 0
             },
             normalDelta: {
-                energy: 1,
+                energy: 10,
                 pollution: 0,
                 food: 0
             }
@@ -72,13 +88,13 @@ define('availableFacilities', ['underscore'], function(_) {
             landCost: 1,
             buildDuration: 50,
             buildDelta: {
-                energy: -10,
-                pollution: 8,
+                energy: -100,
+                pollution: 16,
                 food: 0
             },
             normalDelta: {
-                energy: 10,
-                pollution: 1,
+                energy: 100,
+                pollution: 2,
                 food: 0
             }
         },
@@ -88,12 +104,12 @@ define('availableFacilities', ['underscore'], function(_) {
             landCost: 4,
             buildDuration: 2,
             buildDelta: {
-                energy: -1,
-                pollution: 1,
+                energy: -10,
+                pollution: 2,
                 food: 0
             },
             normalDelta: {
-                energy: 3,
+                energy: 15,
                 pollution: 1,
                 food: -80
             }
@@ -105,13 +121,13 @@ define('availableFacilities', ['underscore'], function(_) {
             buildDuration: 30,
             buildDelta: {
                 energy: -5,
-                pollution: 1,
+                pollution: 2,
                 food: 0
             },
             normalDelta: {
                 energy: -3,
                 food: 0,
-                pollution: -1
+                pollution: -2
             }
         }
     ];
