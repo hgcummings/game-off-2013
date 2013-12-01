@@ -3,36 +3,38 @@ define('availableFacilities', ['underscore'], function(_) {
 
     var facilities = [
         {
-            name: 'Farm (under construction)',
-            landCost: 2,
-            buildDuration: 1000,
-            energyDelta: -16,
-            pollutionDelta: 32,
-            foodDelta: 0
-        },
-        {
+            facilityId: 1,
             name: 'Farm',
+            shortName: 'farm',
             landCost: 2,
             buildDuration: 1,
-            energyDelta: -2,
-            pollutionDelta: 16,
-            foodDelta: 32
+            buildDelta: {
+                energy: -1,
+                pollution: 1,
+                food: 0
+            },
+            normalDelta: {
+                energy: -1,
+                pollution: 0,
+                food: 100
+            }
         },
         {
-            name: 'Coal Power Plant (under construction)',
-            landCost: 4,
-            buildDuration: 3000,
-            energyDelta: -16,
-            pollutionDelta: 80,
-            foodDelta: 0
-        },
-        {
+            facilityId: 2,
             name: 'Coal Power Plant',
+            shortName: 'coal',
             landCost: 4,
             buildDuration: 3,
-            energyDelta: 128,
-            pollutionDelta: 64,
-            foodDelta: 0
+            buildDelta: {
+                energy: -2,
+                pollution: 5,
+                food: 0
+            },
+            normalDelta: {
+                energy: 2,
+                pollution: 1,
+                food: 0
+            }
         }
     ];
 

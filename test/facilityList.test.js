@@ -16,7 +16,7 @@ define(function (require) {
 
                 // Assert
                 expect(resultCount).toEqual(1);
-                expect(result.name).toEqual('Farm (under construction)');
+                expect(result.name).toEqual('Farm');
             });
 
             // add duplicate facilities

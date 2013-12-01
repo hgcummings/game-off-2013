@@ -3,21 +3,19 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
 
     return {
         create: function (parent, cells) {
-            var width = 960,
-                height = 500;
-
             var origin = [0, -5];
 
             var projection = d3.geo.orthographic()
+                .translate([parent.clientWidth / 2, parent.clientHeight / 2])
                 .rotate(origin)
-                .scale(240)
+                .scale((parent.clientHeight / 2) - 10)
                 .clipAngle(90);
 
             var path = d3.geo.path().projection(projection);
 
             var svg = d3.select(parent).append('svg')
-                .attr('width', width)
-                .attr('height', height);
+                .attr('width', parent.clientWidth)
+                .attr('height', parent.clientHeight);
 
             var polygons = svg.selectAll('path')
                 .data(cells)
@@ -37,22 +35,35 @@ define('globe', ['jquery', 'd3'], function ($, d3) {
 
             redraw();
 
-            $(document).keydown(function (e) {
-                switch (e.keyCode) {
-                case 37:
-                    origin[0] -= 5;
-                    projection.rotate(origin);
-                    redraw();
-                    break;
-                case 39:
-                    origin[0] += 5;
-                    projection.rotate(origin);
-                    redraw();
-                    break;
-                default:
-                    break;
+            var keyState = {};
+
+            window.addEventListener('keydown', function(e){
+                keyState[e.keyCode || e.which] = true;
+            },true);
+
+            window.addEventListener('keyup', function(e){
+                keyState[e.keyCode || e.which] = false;
+            },true);
+
+            function scrollGlobeXBy (offset) {
+                origin[0] += offset;
+                projection.rotate(origin);
+                redraw();
+            }
+
+            function globeScrollingLoop() {
+                if (keyState[37]){ // Left key
+                    scrollGlobeXBy(5);
                 }
-            });
+
+                if (keyState[39]){ // Right key
+                    scrollGlobeXBy(-5);
+                }
+
+                setTimeout(globeScrollingLoop, 10);
+            }
+
+            globeScrollingLoop();
 
             return {
                 redraw: redraw
