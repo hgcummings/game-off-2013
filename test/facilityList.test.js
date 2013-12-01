@@ -55,14 +55,15 @@ define(function (require) {
                 var result = facilityList.update(20);
 
                 // Assert
-                expect(result.buildableLandArea).toEqual(14);
+                expect(result.buildableLandArea).toEqual(11);
             });
 
             it('returns in construction pollution delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Wind Power Plant').completeEarly();
-                facilityList.addFacility('Farm');
+                facilityList.addFacility('Wind Power Plant').completeEarly();
+                facilityList.addFacility('Coal Power Plant');
 
                 // Act
                 facilityList.update(20);
@@ -101,11 +102,10 @@ define(function (require) {
             it('returns normal operation food delta', function() {
                 // Arrange
                 var facilityList = new FacilityList(mockUI);
-                facilityList.addFacility('Farm');
+                facilityList.addFacility('Farm').completeEarly();
                 facilityList.addFacility('Coal Power Plant').completeEarly();
 
                 // Act
-                facilityList.update(20);
                 var result = facilityList.update(20);
 
                 // Assert
@@ -127,14 +127,14 @@ define(function (require) {
 
             it('completes construction of facilities', function() {
                 // Arrange
-                console.log('############################################');
                 var facilityList = new FacilityList(mockUI);
                 facilityList.addFacility('Coal Power Plant').completeEarly();
                 facilityList.addFacility('Farm');
 
                 // Act
-                facilityList.update(20);
-                facilityList.update(20);
+                for (var i = 0; i < availableFacilities['Farm'].buildDuration; ++i) {
+                    facilityList.update(20);
+                }
                 var result = facilityList.getFacility(1);
 
                 // Assert

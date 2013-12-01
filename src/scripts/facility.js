@@ -43,7 +43,6 @@ define('facility', function() {
         };
 
         this.update = function(remainingPower) {
-            console.log(this.name(), this.baseEnergyDelta());
             if (remainingPower >= -this.baseEnergyDelta()) {
                 timeBuilt++;
                 this.hasPower = true;
