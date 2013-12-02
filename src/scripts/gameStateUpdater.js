@@ -28,10 +28,15 @@ define('gameStateUpdater', function() {
             function updateSeaLevel() {
 
                 var updatedSeaLevel = currentState.seaLevel;
-                
-                if (currentState.pollution >= 100) {
-                    updatedSeaLevel = currentState.seaLevel + 1;
+   
+                if (currentState.pollution >= 300) {
+                    updatedSeaLevel = currentState.seaLevel + 3;
                 }
+
+                else if (currentState.pollution >= 100) {
+                    updatedSeaLevel = currentState.seaLevel + 2;
+                }
+
                 if (currentState.pollution === 0) {
                     updatedSeaLevel = (currentState.seaLevel > 0) ?
                         (currentState.seaLevel - 1) : 0;

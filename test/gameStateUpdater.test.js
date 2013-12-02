@@ -56,7 +56,21 @@ define(function (require) {
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(nextState.seaLevel).toBe(currentSeaLevel + 1);
+            expect(nextState.seaLevel).toBe(currentSeaLevel + 2);
+
+            // Arrange
+            currentSeaLevel = 0;
+            currentPollution = 300;
+            currentState = {
+                seaLevel: currentSeaLevel,
+                pollution: currentPollution
+            };
+
+            // Act
+            nextState = gameStateUpdater.updateGameState(currentState);
+
+            // Assert
+            expect(nextState.seaLevel).toBe(currentSeaLevel + 3);
         });
 
         it('reduces sea level when there is no pollution', function() {
@@ -105,7 +119,7 @@ define(function (require) {
             var nextState = gameStateUpdater.updateGameState(currentState);
 
             // Assert
-            expect(mockTerrain.updateSeaLevel).toHaveBeenCalledWith(currentState.seaLevel + 1);
+            expect(mockTerrain.updateSeaLevel).toHaveBeenCalledWith(currentState.seaLevel + 2);
         });
 
         it('increases pollution based on facilities', function() {
