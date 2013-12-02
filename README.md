@@ -1,3 +1,25 @@
+## The game
+
+You are in charge of a tiny planet with a small but growing population. Build farms and facilities to feed them while keeping climate change under control. Remember, your tiny planet only has a micro-climate, so change can be dramatic!
+
+![alt text](https://raw.github.com/Softwire/game-off-2013/master/screenshot.png "In-game screenshot")
+
+### 3rd-party libraries
+
+Open source:
+* [D3](http://d3js.org/)
+* [jQuery](http://jquery.com/)
+* [Bootstrap](http://getbootstrap.com/)
+* [Underscore](http://underscorejs.org/)
+* [requireJS](http://requirejs.org/)
+* [requirejs-plugins](https://github.com/millermedeiros/requirejs-plugins)
+* [jasmine](http://pivotal.github.io/jasmine/)
+* [Squire.js](https://github.com/iammerrick/Squire.js/)
+* [rng-js](https://github.com/skeeto/rng-js)
+
+Other:
+* [Google Charts API](https://developers.google.com/chart/)
+
 ## The Challenge
 
 We have the entire month of November to create a **web-based** game *loosely* based on the theme "change".
