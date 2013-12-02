@@ -80,9 +80,12 @@ require(
                 }
             }, 1000);
 
+            $('#loader').hide();
+            $('#facilities').show();
+
             function getGameOverText(state) {
                 return "Your planet's population has perished.\n" +
                        "Your people survived until " + $('#date').text() + ".\n" +
                        state.totalDeathsFromStarvation + " died under your watch.\n";
-            };
+            }
         });
