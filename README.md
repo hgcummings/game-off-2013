@@ -1,6 +1,8 @@
 ## The game
 
-You are in charge of a tiny planet with a small but growing population. Build farms and facilities to feed them while keeping climate change under control. Remember, your tiny planet only has a micro-climate, so change can be dramatic!
+You are in charge of a tiny planet with a small but growing population. Build farms and facilities to feed them while keeping climate change under control.
+
+Remember, your tiny planet only has a micro-climate, so change can be dramatic!
 
 ![alt text](https://raw.github.com/Softwire/game-off-2013/master/screenshot.png "In-game screenshot")
 
