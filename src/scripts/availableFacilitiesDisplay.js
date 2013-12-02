@@ -1,4 +1,4 @@
-define('availableFacilitiesDisplay', ['jquery', 'bootstrap'], function($, bootstrap) {
+define('availableFacilitiesDisplay', ['jquery'], function($) {
     'use strict';
 
     return function(availableFacilities, facilityList, facilitiesGui) {

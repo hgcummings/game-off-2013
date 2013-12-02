@@ -158,16 +158,16 @@ define('availableFacilities', ['underscore'], function(_) {
             name: 'Recycling Facility',
             shortName: 'recycling',
             landCost: 10,
-            buildDuration: 30,
+            buildDuration: 10,
             researchDifficulty:3,
             buildDelta: {
-                energy: -5,
+                energy: -50,
                 pollution: 2,
                 food: 0,
                 research:0
             },
             normalDelta: {
-                energy: -3,
+                energy: -30,
                 food: 0,
                 pollution: -2,
                 research:0
