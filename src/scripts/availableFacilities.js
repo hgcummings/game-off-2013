@@ -41,6 +41,25 @@ define('availableFacilities', ['underscore'], function(_) {
             }
         },
         {
+            name: 'GM Farm',
+            shortName: 'gmfarm',
+            landCost: 7,
+            buildDuration: 7,
+            researchDifficulty: 3,
+            buildDelta: {
+                energy: -20,
+                pollution: 0,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: -30,
+                pollution: 0,
+                food: 250,
+                research:0
+            }
+        },
+        {
             name: 'Coal Power Plant',
             shortName: 'coal',
             landCost: 2,
