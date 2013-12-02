@@ -51,7 +51,6 @@ require(
                 totalDeathsFromStarvation: 0
             };
 
-
             var game = new Game(initialGameState, gameStateUpdater);
             var ui = new MainUI();
             var tickCount = 0;
@@ -61,13 +60,30 @@ require(
                 $(this).tab('show');
             }).last().click();
 
-            setInterval(function(){
+            $('#playAgain').click(function() {
+                location.reload();
+            });
+
+            var loop = setInterval(function(){
                 if (game.state.population > 0) {
                     //code goes here that will be run every tick.
                     tickCount++;
                     game.update();
                     ui.refreshDisplay(game.state, tickCount);
                     map.redraw();
+                } else {
+                    window.clearInterval(loop);
+                    $('#gameOverModal .modal-body').html(getGameOverText(game.state));
+                    $('#gameOverModal').modal();
                 }
             }, 1000);
+
+            $('#loader').hide();
+            $('#facilities').show();
+
+            function getGameOverText(state) {
+                return 'Your planet\'s population has perished.<br/>' +
+                       'Your people survived until ' + $('#date').text() + '.<br/>' +
+                       state.totalDeathsFromStarvation + ' died under your watch.\n';
+            }
         });

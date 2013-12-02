@@ -41,6 +41,25 @@ define('availableFacilities', ['underscore'], function(_) {
             }
         },
         {
+            name: 'GM Farm',
+            shortName: 'gmfarm',
+            landCost: 7,
+            buildDuration: 7,
+            researchDifficulty: 3,
+            buildDelta: {
+                energy: -20,
+                pollution: 0,
+                food: 0,
+                research:0
+            },
+            normalDelta: {
+                energy: -30,
+                pollution: 0,
+                food: 250,
+                research:0
+            }
+        },
+        {
             name: 'Coal Power Plant',
             shortName: 'coal',
             landCost: 2,
@@ -64,7 +83,7 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'oil',
             landCost: 7,
             buildDuration: 8,
-            researchDifficulty:1,
+            researchDifficulty:10,
             buildDelta: {
                 energy: -40,
                 pollution: 10,
@@ -139,16 +158,16 @@ define('availableFacilities', ['underscore'], function(_) {
             name: 'Recycling Facility',
             shortName: 'recycling',
             landCost: 10,
-            buildDuration: 30,
+            buildDuration: 10,
             researchDifficulty:3,
             buildDelta: {
-                energy: -5,
+                energy: -50,
                 pollution: 2,
                 food: 0,
                 research:0
             },
             normalDelta: {
-                energy: -3,
+                energy: -30,
                 food: 0,
                 pollution: -2,
                 research:0
@@ -161,13 +180,13 @@ define('availableFacilities', ['underscore'], function(_) {
             buildDuration: 10,
             researchDifficulty:0,
             buildDelta: {
-                energy: -5,
+                energy: -50,
                 pollution: 0,
                 food: 0,
                 research:0
             },
             normalDelta: {
-                energy: -2,
+                energy: -20,
                 food: 0,
                 pollution: 0,
                 research:1

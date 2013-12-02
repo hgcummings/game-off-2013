@@ -1,4 +1,4 @@
-define('availableFacilitiesDisplay', ['jquery'], function($) {
+define('availableFacilitiesDisplay', ['jquery', 'bootstrap'], function($) {
     'use strict';
 
     return function(availableFacilities, facilityList, facilitiesGui) {
@@ -11,7 +11,7 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
             facilityDisplay.append(getEntryForValue(this.normalDelta.energy));
             facilityDisplay.append(getEntryForValue(this.normalDelta.food));
             facilityDisplay.append(getEntryForValue(this.normalDelta.pollution));
-            facilityDisplay.append(getPlacementButtonForFacility(this, 0));
+            facilityDisplay.append(getPlacementButtonForFacility(this));
             availableFacilitiesDisplay.append(facilityDisplay);
         });
 
@@ -32,16 +32,29 @@ define('availableFacilitiesDisplay', ['jquery'], function($) {
             return $('<td>' + value + '</td>');
         }
 
-        function getPlacementButtonForFacility(facility, landRemaining)
+        function getPlacementButtonForFacility(facility)
         {
+
+            var facilityMessage = $('<div/>');
+            facilityMessage.append($('<div/>').text('Time: ' + facility.buildDuration + ' months'));
+            if(facility.buildDelta.energy !== 0) {
+                facilityMessage.append($('<div/>').text('Energy per month: ' + facility.buildDelta.energy));
+            }
+            if(facility.buildDelta.pollution !== 0) {
+                facilityMessage.append($('<div/>').text('CO2 per month: ' + facility.buildDelta.pollution));
+            }
+
+            var html = $('<div/>').append(facilityMessage).html();
             var constructButton = $('<button>Construct</button>');
 
-            if (landRemaining < facility.landCost) {
-                constructButton.attr('disabled', true);
-            }
+            constructButton.attr('title', html);
 
             constructButton.click(function(){
                 facilitiesGui.openConstructionContext(facility.name, facilityList);
+            });
+            constructButton.tooltip({
+                placement:'left',
+                html:true
             });
             return constructButton;
         }

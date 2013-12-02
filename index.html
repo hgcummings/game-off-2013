@@ -50,6 +50,11 @@
             stroke: Goldenrod;
         }
 
+        #map path.land.facility-gmfarm {
+            fill: #9ada4c;
+            stroke: #9ada4c;
+        }
+
         #map path.land.facility-wind {
             fill: #AEF;
             stroke: #AEF;
@@ -144,8 +149,10 @@
         <div id="charts" class="col-md-6">
 
         </div>
-
-        <div class="col-md-6">
+        <div id="loader">
+            <h2><i class="fa fa-cog fa-spin"></i> Reticulating splines&hellip;</h2>
+        </div>
+        <div class="col-md-6" id="facilities" style="display: none">
             <h3>Facilities</h3>
             <ul class="nav nav-tabs" id="facilitiesTabs">
                 <li>
@@ -180,6 +187,23 @@
                         <th>Pollution</th>
                     </tr>
                 </table>
+            </div>
+        </div>
+
+        <div class="modal fade" id="gameOverModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Game Over</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="playAgain" type="button" class="btn btn-primary">Play again</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
