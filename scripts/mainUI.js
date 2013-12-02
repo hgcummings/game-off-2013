@@ -10,11 +10,11 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
                 label: 'CO₂',
                 options: {
                     min: 0,
-                    max: 1000,
-                    redFrom: 900,
-                    redTo: 1000,
-                    yellowFrom: 800,
-                    yellowTo: 900,
+                    max: 400,
+                    redFrom: 300,
+                    redTo: 400,
+                    yellowFrom: 100,
+                    yellowTo: 300,
                     greenFrom: 0,
                     greenTo: 100
                 }
@@ -29,46 +29,46 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
                     yellowFrom: 500,
                     yellowTo: 750,
                     greenFrom: 0,
-                    greenTo: 100
+                    greenTo: 20
                 }
             },
             land: {
                 label: 'Woodland',
                 options: {
                     min: 0,
-                    max: 1000,
+                    max: 800,
                     redFrom: 0,
                     redTo: 100,
                     yellowFrom: 100,
                     yellowTo: 200,
-                    greenFrom: 900,
-                    greenTo: 1000
+                    greenFrom: 600,
+                    greenTo: 850
                 }
             },
             power: {
                 label: 'Power',
                 options: {
-                    min: -10,
-                    max: 90,
-                    redFrom: -10,
+                    min: -20,
+                    max: 60,
+                    redFrom: -20,
                     redTo: 0,
                     yellowFrom: 0,
-                    yellowTo: 10,
-                    greenFrom: 80,
-                    greenTo: 90
+                    yellowTo: 20,
+                    greenFrom: 40,
+                    greenTo: 60
                 }
             },
             food: {
                 label: 'Food',
                 options: {
                     min: 0,
-                    max: 1000,
+                    max: 10000,
                     redFrom: 0,
-                    redTo: 100,
-                    yellowFrom: 100,
-                    yellowTo: 200,
-                    greenFrom: 900,
-                    greenTo: 1000
+                    redTo: 625,
+                    yellowFrom: 625,
+                    yellowTo: 1250,
+                    greenFrom: 8750,
+                    greenTo: 12000
                 }
             },
             deaths: {
@@ -79,7 +79,9 @@ define('mainUI', ['jquery', 'goog!visualization,1,packages:[corechart,gauge]'], 
                     redFrom: 750,
                     redTo: 1000,
                     yellowFrom: 500,
-                    yellowTo: 750
+                    yellowTo: 750,
+                    greenFrom: -100,
+                    greenTo: 0
                 }
             }
         };
