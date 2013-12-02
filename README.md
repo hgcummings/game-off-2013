@@ -27,10 +27,6 @@ Open source:
 Other:
 * [Google Charts API](https://developers.google.com/chart/)
 
-### 3rd-party tools
-
-* []
-
 ## The Challenge
 
 We have the entire month of November to create a **web-based** game *loosely* based on the theme "change".
