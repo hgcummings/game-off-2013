@@ -64,7 +64,7 @@ define('availableFacilities', ['underscore'], function(_) {
             shortName: 'oil',
             landCost: 7,
             buildDuration: 8,
-            researchDifficulty:1,
+            researchDifficulty:10,
             buildDelta: {
                 energy: -40,
                 pollution: 10,
