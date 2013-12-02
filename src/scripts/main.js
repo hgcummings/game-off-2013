@@ -61,13 +61,28 @@ require(
                 $(this).tab('show');
             }).last().click();
 
-            setInterval(function(){
+            $('#playAgain').click(function (e) {
+                location.reload();
+            });
+
+            var loop = setInterval(function(){
+                console.log(game.state.population);
                 if (game.state.population > 0) {
                     //code goes here that will be run every tick.
                     tickCount++;
                     game.update();
                     ui.refreshDisplay(game.state, tickCount);
                     map.redraw();
+                } else {
+                    window.clearInterval(loop);
+                    $('#gameOverModal .modal-body').text(getGameOverText(game.state));
+                    $('#gameOverModal').modal();
                 }
             }, 1000);
+
+            function getGameOverText(state) {
+                return "Your planet's population has perished.\n" +
+                       "Your people survived until " + $('#date').text() + ".\n" +
+                       state.totalDeathsFromStarvation + " died under your watch.\n";
+            };
         });
