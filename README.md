@@ -6,7 +6,7 @@ Remember, your tiny planet only has a micro-climate, so change can be dramatic!
 
 ![alt text](https://raw.github.com/Softwire/game-off-2013/master/screenshot.png "In-game screenshot")
 
-### 3rd-party libraries
+### 3rd-party libraries and tools
 
 Open source:
 * [D3](http://d3js.org/)
@@ -15,12 +15,21 @@ Open source:
 * [Underscore](http://underscorejs.org/)
 * [requireJS](http://requirejs.org/)
 * [requirejs-plugins](https://github.com/millermedeiros/requirejs-plugins)
+* [node (and npm)](http://nodejs.org/)
 * [jasmine](http://pivotal.github.io/jasmine/)
 * [Squire.js](https://github.com/iammerrick/Squire.js/)
+* [karma](http://karma-runner.github.io/0.10/index.html)
+* [grunt](http://gruntjs.com/)
+* [JSHint](http://www.jshint.com/)
+* [Istanbul](http://gotwarlost.github.io/istanbul/)
 * [rng-js](https://github.com/skeeto/rng-js)
 
 Other:
 * [Google Charts API](https://developers.google.com/chart/)
+
+### 3rd-party tools
+
+* []
 
 ## The Challenge
 
