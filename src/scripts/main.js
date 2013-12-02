@@ -60,7 +60,9 @@ require(
                 $(this).tab('show');
             }).last().click();
 
-            $('#playAgain').click(location.reload);
+            $('#playAgain').click(function() {
+                location.reload();
+            });
 
             var loop = setInterval(function(){
                 if (game.state.population > 0) {
